@@ -1,8 +1,12 @@
 package gamesleague;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class League {
     private String name;
-    private String owner;
+    private List<Player> owners = new ArrayList<>();
+    private List<Player> members = new ArrayList<>();
     private String gameType;
     private int leagueId;
 
@@ -17,8 +21,8 @@ public class League {
         return name;
     }
 
-    public String getLeagueOwner() {
-        return owner;
+    public List<Player> getLeagueOwners() {
+        return owners;
     }
 
     public String getLeagueGameType() {
@@ -34,9 +38,13 @@ public class League {
         return "League not found";
     }
 
+    public void addLeagueOwner(int leagueId, int playerID) {
+        owners.add(owner);
+    }
+
     public void removeLeague() {
         this.name = null;
-        this.owner = null;
+        this.owners = null;
         this.gameType = null;
         this.leagueId = 0;
     }
