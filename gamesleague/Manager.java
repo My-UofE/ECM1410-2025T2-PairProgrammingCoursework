@@ -161,6 +161,7 @@ public class Manager {
 
     public void invitePlayerToLeague(int leagueId, String email) {
         // Send email to player
+        
     }
 
     public void acceptInviteToLeague(int leagueID) {
@@ -220,6 +221,16 @@ public class Manager {
 
     public int cloneLeague(int leagueId, String newName) {
         // Clone league in database
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                League league = new League();
+                league.setLeagueName(newName);
+                league.setLeagueGameType(leagues.get(i).getLeagueGameType());
+                league.setLeagueId(newId++);
+                league.addLeagueOwners(leagues.get(i).getLeagueOwners());
+                leagues.add(league);
+            }
+        }
     }
 
     public boolean isLeaguePlayerActive(int leagueId, int playerId) {
