@@ -67,6 +67,7 @@ public class League {
     }
 
     public int[] getLeaguePlayers(int leagueId) {
+        return memberIDs.toArray(new int[0]);
         // Get players from database
     }
 
