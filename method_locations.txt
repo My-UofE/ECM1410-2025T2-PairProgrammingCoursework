@@ -1,59 +1,58 @@
 GamesLeagueInterface.java:
 - int[] getPlayerIds()
-- int createPlayer(String email, String displayName, String name, String phone) throws InvalidEmailException, IllegalEmailException, InvalidNameException
-- void deactivatePlayer(int playerId) throws IDInvalidException, IllegalOperationException
-- boolean isDeactivatedPlayer(int playerId) throws IDInvalidException
-- void updatePlayerDisplayName(int playerId, String displayName) throws IDInvalidException, InvalidNameException
+- int createPlayer(String email, String displayName, String name, String phone)
+- void deactivatePlayer(int playerId)
+- boolean isDeactivatedPlayer(int playerId)
+- void updatePlayerDisplayName(int playerId, String displayName)
 - int getPlayerId(String email)
-- String getPlayerDisplayName(int playerId) throws IDInvalidException
-- String getPlayerEmail(int playerId) throws IDInvalidException
-- int[] getPlayerLeagues(int playerId) throws IDInvalidException
-- int[] getPlayerOwnedLeagues(int playerId) throws IDInvalidException
-- int[] getPlayerInvites(int playerId) throws IDInvalidException
-- int getPlayerRoundsPlayed(int playerId) throws IDInvalidException
-- double getPlayerRoundsPercentage(int playerId) throws IDInvalidException
-- LocalDate getPlayerJoinDate(int playerId) throws IDInvalidException
-- int[] getLeagueIds()
-- int createLeague(int owner, String name, GameType gameType) throws IDInvalidException
-- void removeLeague(int leagueId) throws IDInvalidException
-- String getLeagueName(int leagueId) throws IDInvalidException
-- void updateLeagueName(int leagueId, String newName) throws IDInvalidException, InvalidNameException, IllegalNameException
-- void invitePlayerToLeague(int leagueId, String email) throws IDInvalidException, InvalidEmailException
-- void acceptInviteToLeague(int leagueId) throws IDInvalidException
-- void removeInviteFromLeague(int leagueId, String email) throws IDInvalidException, IllegalEmailException
-- String[] getLeagueEmailInvites(int leagueId) throws IDInvalidException
-- int[] getLeaguePlayerInvites(int leagueId) throws IDInvalidException
-- int[] getLeaguePlayers(int leagueId) throws IDInvalidException
-- int[] getLeagueOwners(int leagueId) throws IDInvalidException
-- Status getLeagueStatus(int leagueId) throws IDInvalidException
-- void setLeagueStartDate(int leagueId, int day) throws IDInvalidException, IllegalOperationException
-- void setLeagueEndDate(int leagueId) throws IDInvalidException
-- int getLeagueStartDate(int leagueId) throws IDInvalidException
-- int getLeagueCloseDate(int leagueId) throws IDInvalidException
-- void resetLeague(int leagueId) throws IDInvalidException
-- int cloneLeague(int leagueId, String newName) throws IDInvalidException
-- boolean isLeaguePlayerActive(int leagueId, int playerId) throws IDInvalidException, IllegalArgumentException
-- void setLeaguePlayerInactive(int leagueId, int playerId) throws IDInvalidException, IllegalArgumentException
-- void setLeaguePlayerActive(int leagueId, int playerId) throws IDInvalidException, IllegalArgumentException
-- void addOwner(int leagueId, int playerId) throws IDInvalidException, IllegalOperationException
-- void removeOwner(int leagueId, int playerId) throws IDInvalidException, IllegalOperationException
-- void registerGameReport(int day, int leagueId, int playerId, String gameReport) throws IDInvalidException, IllegalOperationException
-- String getGameReport(int day, int leagueId, int playerId) throws IDInvalidException, InvalidDateException
-- void registerDayScores(int day, int leagueId, int[] scores) throws IDInvalidException, IllegalArgumentException
-- void voidDayPoints(int day, int leagueId) throws IDInvalidException, IllegalArgumentException
-- Status getDayStatus(int leagueId, int day) throws IDInvalidException, InvalidDateException
-- int[] getDayScores(int leagueId, int day) throws IDInvalidException, InvalidDateException
-- int[] getDayPoints(int leagueId, int day) throws IDInvalidException, InvalidDateException
-- int[] getDayRanking(int leagueId, int day) throws IDInvalidException, InvalidDateException
-- Status getWeekStatus(int leagueId, int day) throws IDInvalidException, InvalidDateException
-- int[] getWeekPoints(int leagueId, int day) throws IDInvalidException, InvalidDateException
-- int[] getWeekRanking(int leagueId, int day) throws IDInvalidException, InvalidDateException
-- Status getMonthStatus(int leagueId, int day) throws IDInvalidException, InvalidDateException
-- int[] getMonthPoints(int leagueId, int day) throws IDInvalidException, InvalidDateException
-- int[] getMonthRanking(int leagueId, int day) throws IDInvalidException, InvalidDateException
-- Status getYearStatus(int leagueId, int day) throws IDInvalidException, InvalidDateException
-- int[] getYearPoints(int leagueId, int day) throws IDInvalidException, InvalidDateException
-- int[] getYearRanking(int leagueId, int day) throws IDInvalidException, InvalidDateException
+- String getPlayerDisplayName(int playerId)
+- String getPlayerEmail(int playerId)
+- int[] getPlayerLeagues(int playerId)
+- int[] getPlayerOwnedLeagues(int playerId)
+- int[] getPlayerInvites(int playerId)
+- int getPlayerRoundsPlayed(int playerId)
+- double getPlayerRoundsPercentage(int playerId)
+- LocalDate getPlayerJoinDate(int playerId)
+- int createLeague(int owner, String name, GameType gameType)
+- void removeLeague(int leagueId)
+- String getLeagueName(int leagueId)
+- void updateLeagueName(int leagueId, String newName)
+- void invitePlayerToLeague(int leagueId, String email)
+- void acceptInviteToLeague(int leagueId)
+- void removeInviteFromLeague(int leagueId, String email)
+- String[] getLeagueEmailInvites(int leagueId)
+- int[] getLeaguePlayerInvites(int leagueId)
+- int[] getLeaguePlayers(int leagueId)
+- int[] getLeagueOwners(int leagueId)
+- Status getLeagueStatus(int leagueId)
+- void setLeagueStartDate(int leagueId, int day)
+- void setLeagueEndDate(int leagueId)
+- int getLeagueStartDate(int leagueId)
+- int getLeagueCloseDate(int leagueId)
+- void resetLeague(int leagueId)
+- int cloneLeague(int leagueId, String newName)
+- boolean isLeaguePlayerActive(int leagueId, int playerId)
+- void setLeaguePlayerInactive(int leagueId, int playerId)
+- void setLeaguePlayerActive(int leagueId, int playerId)
+- void addOwner(int leagueId, int playerId)
+- void removeOwner(int leagueId, int playerId)
+- void registerGameReport(int day, int leagueId, int playerId, String gameReport)
+- String getGameReport(int day, int leagueId, int playerId)
+- void registerDayScores(int day, int leagueId, int[] scores)
+- void voidDayPoints(int day, int leagueId)
+- Status getDayStatus(int leagueId, int day)
+- int[] getDayScores(int leagueId, int day)
+- int[] getDayPoints(int leagueId, int day)
+- int[] getDayRanking(int leagueId, int day)
+- Status getWeekStatus(int leagueId, int day)
+- int[] getWeekPoints(int leagueId, int day)
+- int[] getWeekRanking(int leagueId, int day)
+- Status getMonthStatus(int leagueId, int day)
+- int[] getMonthPoints(int leagueId, int day)
+- int[] getMonthRanking(int leagueId, int day)
+- Status getYearStatus(int leagueId, int day)
+- int[] getYearPoints(int leagueId, int day)
+- int[] getYearRanking(int leagueId, int day)
 - void eraseGamesLeagueData()
-- void saveGamesLeagueData(String filename) throws IOException
-- void loadGamesLeagueData(String filename) throws IOException, ClassNotFoundException
+- void saveGamesLeagueData(String filename)
+- void loadGamesLeagueData(String filename)
