@@ -1,18 +1,18 @@
 GamesLeagueInterface.java:
-- int[] getPlayerIds()
-- int createPlayer(String email, String displayName, String name, String phone)
-- void deactivatePlayer(int playerId)
-- boolean isDeactivatedPlayer(int playerId)
-- void updatePlayerDisplayName(int playerId, String displayName)
-- int getPlayerId(String email)
-- String getPlayerDisplayName(int playerId)
-- String getPlayerEmail(int playerId)
-- int[] getPlayerLeagues(int playerId)
-- int[] getPlayerOwnedLeagues(int playerId)
-- int[] getPlayerInvites(int playerId)
-- int getPlayerRoundsPlayed(int playerId)
-- double getPlayerRoundsPercentage(int playerId)
-- LocalDate getPlayerJoinDate(int playerId)
+- int[] getPlayerIds() - player
+- int createPlayer(String email, String displayName, String name, String phone) - player
+- void deactivatePlayer(int playerId) - player
+- boolean isDeactivatedPlayer(int playerId) - player
+- void updatePlayerDisplayName(int playerId, String displayName) - player
+- int getPlayerId(String email) - player
+- String getPlayerDisplayName(int playerId) - player
+- String getPlayerEmail(int playerId) - player
+- int[] getPlayerLeagues(int playerId) - player
+- int[] getPlayerOwnedLeagues(int playerId) - player
+- int[] getPlayerInvites(int playerId) - player
+- int getPlayerRoundsPlayed(int playerId) - player
+- double getPlayerRoundsPercentage(int playerId) - player
+- LocalDate getPlayerJoinDate(int playerId) - player
 - int createLeague(int owner, String name, GameType gameType)
 - void removeLeague(int leagueId)
 - String getLeagueName(int leagueId)

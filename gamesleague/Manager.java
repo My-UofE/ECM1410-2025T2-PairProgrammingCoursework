@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerManager {
+public class Manager {
     private List<Player> players = new ArrayList<>();
 
     public int[] getPlayerIds() {
