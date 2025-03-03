@@ -9,6 +9,9 @@ public class League {
     private List<Integer> memberIDs = new ArrayList<>();
     private GameType gameType;
     private int leagueId;
+    private List<String> emailInvites = new ArrayList<>();
+    private List<Integer> playerInvites = new ArrayList<>();
+
 
     public void createLeague(int owner, String name, GameType gameType ) {
         this.name = name;
@@ -117,6 +120,7 @@ public class League {
 
     public void removeOwner(int leagueId, int playerId) {
         // Remove owner from league
+        ownerIDs.remove(playerId);
     }
 
     public void registerGameReport(int day, int leagueId,  int playerId, String gameReport ) {
