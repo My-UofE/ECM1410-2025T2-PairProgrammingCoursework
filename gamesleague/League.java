@@ -9,25 +9,67 @@ public class League {
     private List<Integer> membersId = new ArrayList<>();
     private GameType gameType;
     private int leagueId;
-
-
-    public void createLeague(int owner, String name, GameType gameType ) {
-        this.name = name;
-        this.ownerIDs.add(owner);
-        this.gameType = gameType;
-        this.leagueId = 0; // Placeholder value, to be updated with a unique ID
-    }
+    private int leagueStartDate;
+    private int leagueEndDate;
 
     public String getLeagueName() {
         return name;
     }
 
     public List<Integer> getLeagueOwners() {
-        return ownerIDs;
+        return ownersId;
     }
 
     public GameType getLeagueGameType() {
         return gameType;
+    }
+
+    public int getLeagueId() {
+        return leagueId;
+    }
+
+    public int getLeagueStartDate() {
+        return leagueStartDate;
+    }
+
+    public int getLeagueEndDate() {
+        return leagueEndDate;
+    }
+
+    public void setLeagueName(String name) {
+        this.name = name;
+    }
+
+    public void setLeagueGameType(GameType gameType) {
+        this.gameType = gameType;
+    }
+
+    public void setLeagueId(int id) {
+        this.leagueId = id;
+    }
+
+    public void setLeagueStartDate(int startDate) {
+        this.leagueStartDate = startDate;
+    }
+
+    public void setLeagueEndDate(int endDate) {
+        this.leagueEndDate = endDate;
+    }
+
+    public void addLeagueOwners(int owner) {
+        this.ownersId.add(owner);
+    }
+
+    public void removeLeagueOwners(int owner) {
+        this.ownersId.remove(owner);
+    }
+
+    public void addLeagueMembers(int member) {
+        this.membersId.add(member);
+    }
+
+    public void removeLeagueMembers(int member) {
+        this.membersId.remove(member);
     }
 
     public void eraseGamesLeagueData() {

@@ -6,6 +6,8 @@ import java.util.List;
 
 public class Manager {
     private List<Player> players = new ArrayList<>();
+    private List<League> leagues = new ArrayList<>();
+    private int newId = 0;
 
     public int[] getPlayerIds() {
         int[] playerIds = new int[players.size()];
@@ -130,12 +132,31 @@ public class Manager {
         return null; // Return null if player with given id is not found
     }
 
-    public String updateLeagueName(int leagueId, String newName) {
+    public void createLeague(int owner, String name, GameType gameType) {
+        League league = new League();
+        league.setLeagueName(name);
+        league.setLeagueGameType(gameType);
+        league.setLeagueId(newId++);
+        league.addLeagueOwners(owner);
+        leagues.add(league);
+    }
+
+    public void updateLeagueName(int leagueId, String newName) {
         // Update league name in database
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                leagues.get(i).setLeagueName(newName);
+            }
+        }
     }
 
     public void removeLeague(int leagueId) {
         // Remove league from database
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                leagues.remove(i);
+            }
+        }
     }
 
     public void invitePlayerToLeague(int leagueId, String email) {
@@ -152,22 +173,49 @@ public class Manager {
 
     public void setLeagueStartDate(int leagueId, int  day) {
         // Set start date in database
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                leagues.get(i).setLeagueStartDate(day);
+            }
+        }
     }
 
-    public void setLeagueEndDate(int leagueId) {
+    public void setLeagueEndDate(int leagueId, int day) {
         // Set end date in database
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                leagues.get(i).setLeagueEndDate(day);
+            }
+        }
     }
 
     public int getLeagueStartDate(int leagueId) {
         // Get start date from database
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                return leagues.get(i).getLeagueStartDate();
+            }
+        }
+        return -1; // Return -1 if league with given id is not found
     }
 
     public int getLeagueCloseDate(int leagueId) {
         // Get close date from database
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                return leagues.get(i).getLeagueEndDate();
+            }
+        }
+        return -1; // Return -1 if league with given id is not found
     }
 
     public void resetLeague(int leagueId) {
         // Reset league in database
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                leagues.get(i).eraseGamesLeagueData();
+            }
+        }
     }
 
     public int cloneLeague(int leagueId, String newName) {
@@ -188,12 +236,20 @@ public class Manager {
 
     public void addOwner(int leagueId, int playerId) {
         // Add owner to league
-        ownerIDs.add(playerId);
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                leagues.get(i).addLeagueOwners(playerId);
+            }
+        }
     }
 
     public void removeOwner(int leagueId, int playerId) {
         // Remove owner from league
-        ownerIDs.remove(playerId);
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                leagues.get(i).removeLeagueOwners(playerId);
+            }
+        }
     }
 
     public void registerGameReport(int day, int leagueId,  int playerId, String gameReport ) {
