@@ -1,5 +1,8 @@
 package gamesleague;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player {
     private static int lastId = 0; // Static variable to keep track of the last assigned ID
     private int id;
@@ -8,6 +11,7 @@ public class Player {
     private String email;
     private String phone;
     private boolean isActive;
+    private List<Integer> leagues = new ArrayList<>();
 
     public int createPlayer(String email, String displayName, String name, String phone) {
         this.id = ++lastId; // Increment the lastId and assign it to the player's ID
@@ -27,6 +31,10 @@ public class Player {
         return !this.isActive;
     }
 
+    public void updatePlayerDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
     public int getId() {
         return id;
     }
@@ -39,14 +47,12 @@ public class Player {
         return email;
     }
 
-    public String getPlayerLeagues() {
-        // Assuming leagues is a field or can be derived, implement accordingly
-        // For now, returning a placeholder string
-        return "Leagues information";
-    }
-
-    public void updatePlayerDisplayName(String displayName) {
-        this.displayName = displayName;
+    public int[] getPlayerLeagues() {
+        int[] leaguesIds = new int[leagues.size()];
+        for (int i = 0; i < leagues.size(); i++) {
+            leaguesIds[i] = leagues.get(i);
+        }
+        return leaguesIds;
     }
 
     @Override

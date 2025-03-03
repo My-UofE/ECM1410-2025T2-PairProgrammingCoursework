@@ -6,6 +6,14 @@ import java.util.List;
 public class PlayerManager {
     private List<Player> players = new ArrayList<>();
 
+    public int[] getPlayerIds() {
+        int[] playerIds = new int[players.size()];
+        for (int i = 0; i < players.size(); i++) {
+            playerIds[i] = players.get(i).getId();
+        }
+        return playerIds;
+    }
+
     public Player createPlayer(String email, String displayName, String name, String phone) {
         Player player = new Player();
         player.createPlayer(email, displayName, name, phone);
@@ -67,12 +75,12 @@ public class PlayerManager {
         return null; // Return null if player with given id is not found
     }
 
-    public String getPlayerLeagues(int id) {
+    public int[] getPlayerLeagues(int id) {
         for (Player player : players) {
             if (player.getId() == id) {
                 return player.getPlayerLeagues();
             }
         }
-        return null; // Return null if player with given id is not found
+        return new int[0]; // Return empty array if player with given id is not found
     }
 }
