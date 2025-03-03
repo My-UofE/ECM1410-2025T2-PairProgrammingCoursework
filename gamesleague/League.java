@@ -67,12 +67,13 @@ public class League {
     }
 
     public int[] getLeaguePlayers(int leagueId) {
-        return memberIDs.toArray(new int[0]);
         // Get players from database
+        return memberIDs.toArray(new int[0]);
     }
 
     public int[] getLeagueOwners(int leagueId) {
         // Get owners from database
+        return ownerIDs.toArray(new int[0]);
     }
 
     public Status getLeagueStatus(int leagueId ) {
