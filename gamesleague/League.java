@@ -1,12 +1,14 @@
 package gamesleague;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class League {
     private String name;
     private List<Integer> ownersId = new ArrayList<>();
-    private List<Integer> membersId = new ArrayList<>();
+    private Map<Integer, Boolean> members = new HashMap<>();
     private GameType gameType;
     private int leagueId;
     private int leagueStartDate;
@@ -56,7 +58,7 @@ public class League {
         this.leagueEndDate = endDate;
     }
 
-    public void addLeagueOwners(int owner) {
+    public void addLeagueOwner(int owner) {
         this.ownersId.add(owner);
     }
 
@@ -64,12 +66,24 @@ public class League {
         this.ownersId.remove(owner);
     }
 
-    public void addLeagueMembers(int member) {
-        this.membersId.add(member);
+    public void addLeagueMember(int memberId, boolean isActive) {
+        this.members.put(memberId, isActive);
     }
 
-    public void removeLeagueMembers(int member) {
-        this.membersId.remove(member);
+    public void removeLeagueMember(int memberId) {
+        this.members.remove(memberId);
+    }
+
+    public boolean isLeaguePlayerActive(int leagueId, int playerId) 
+            throws IDInvalidException, IllegalArgumentException {
+        if (!members.containsKey(playerId)) {
+            throw new IDInvalidException("Player ID does not match any player in the system.");
+        }
+        return members.get(playerId);
+    }
+
+    public void updateLeagueMemberStatus(int memberId, boolean isActive) {
+        this.members.put(memberId, isActive);
     }
 
     public void eraseGamesLeagueData() {

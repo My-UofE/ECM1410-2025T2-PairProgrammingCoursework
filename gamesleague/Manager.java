@@ -160,12 +160,15 @@ public class Manager {
     }
 
     public void invitePlayerToLeague(int leagueId, String email) {
-        // Send email to player
-        
+        for (Player player : players) {
+            if (player.getEmail() == email) {
+                player.addInvite(leagueId);
+            }
+        }
     }
 
     public void acceptInviteToLeague(int leagueID) {
-        // Add player to league
+        //waiting for response from module leader
     }
 
     public void removeInviteFromLeague(int leagueId, String email) {
@@ -227,22 +230,41 @@ public class Manager {
                 league.setLeagueName(newName);
                 league.setLeagueGameType(leagues.get(i).getLeagueGameType());
                 league.setLeagueId(newId++);
-                league.addLeagueOwners(leagues.get(i).getLeagueOwners());
+                List<Integer> owners = leagues.get(i).getLeagueOwners();
+                for (int owner : owners) {
+                    league.addLeagueOwner(owner);
+                }
                 leagues.add(league);
+                return league.getLeagueId(); // Return the new league ID
             }
         }
+        return -1; // Return -1 if league with given id is not found
     }
 
     public boolean isLeaguePlayerActive(int leagueId, int playerId) {
         // Check if player is active in league
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                return leagues.get(i).isLeaguePlayerActive(leagueId, playerId);
+            }
+        }
+        return false; // Return false if league with given id is not found 
     }
 
     public void setLeaguePlayerInactive(int leagueId, int playerId) {
-        // Set player inactive in league
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                leagues.get(i).updateLeagueMemberStatus(playerId, false);
+            }
+        }
     }
 
     public void setLeaguePlayerActive(int leagueId, int playerId) {
-        // Set player active in league
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                leagues.get(i).updateLeagueMemberStatus(playerId, true);
+            }
+        }
     }
 
     public void addOwner(int leagueId, int playerId) {

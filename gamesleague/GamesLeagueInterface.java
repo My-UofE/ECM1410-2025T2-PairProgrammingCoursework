@@ -400,7 +400,6 @@ public interface GamesLeagueInterface extends Serializable {
      */
     int cloneLeague(int leagueId, String newName) throws IDInvalidException;
 
-
     /**
      * Checks if player is active in the league.
      * 

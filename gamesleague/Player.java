@@ -53,6 +53,10 @@ public class Player {
         return email;
     }
 
+    public void joinLeague(int leagueId) {
+        leagues.add(leagueId);
+    }
+
     public int[] getLeagues() {
         int[] leaguesIds = new int[leagues.size()];
         for (int i = 0; i < leagues.size(); i++) {
@@ -75,6 +79,14 @@ public class Player {
             leaguesIds[i] = invitedLeagues.get(i);
         }
         return leaguesIds;
+    }
+
+    public void addInvite(int leagueId) {
+        invitedLeagues.add(leagueId);
+    }
+
+    public void removeInvite(int leagueId) {
+        invitedLeagues.remove(leagueId);
     }
 
     public int getRoundsPlayed() {
