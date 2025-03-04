@@ -137,7 +137,7 @@ public class Manager {
         league.setLeagueName(name);
         league.setLeagueGameType(gameType);
         league.setLeagueId(newId++);
-        league.addLeagueOwners(owner);
+        league.addLeagueOwner(owner);
         leagues.add(league);
     }
 
@@ -271,7 +271,7 @@ public class Manager {
         // Add owner to league
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
-                leagues.get(i).addLeagueOwners(playerId);
+                leagues.get(i).addLeagueOwner(playerId);
             }
         }
     }

@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class League {
     private String name;
-    private List<Integer> ownersId = new ArrayList<>();
-    private Map<Integer, Boolean> members = new HashMap<>();
+    private List<Integer> ownerIds = new ArrayList<>();
+    private Map<Integer, Boolean> memberIds = new HashMap<>();
     private GameType gameType;
     private int leagueId;
     private int leagueStartDate;
@@ -19,7 +19,7 @@ public class League {
     }
 
     public List<Integer> getLeagueOwners() {
-        return ownersId;
+        return ownerIds;
     }
 
     public GameType getLeagueGameType() {
@@ -59,31 +59,31 @@ public class League {
     }
 
     public void addLeagueOwner(int owner) {
-        this.ownersId.add(owner);
+        this.ownerIds.add(owner);
     }
 
     public void removeLeagueOwners(int owner) {
-        this.ownersId.remove(owner);
+        this.ownerIds.remove(owner);
     }
 
     public void addLeagueMember(int memberId, boolean isActive) {
-        this.members.put(memberId, isActive);
+        this.memberIds.put(memberId, isActive);
     }
 
     public void removeLeagueMember(int memberId) {
-        this.members.remove(memberId);
+        this.memberIds.remove(memberId);
     }
 
     public boolean isLeaguePlayerActive(int leagueId, int playerId) 
             throws IDInvalidException, IllegalArgumentException {
-        if (!members.containsKey(playerId)) {
+        if (!memberIds.containsKey(playerId)) {
             throw new IDInvalidException("Player ID does not match any player in the system.");
         }
-        return members.get(playerId);
+        return memberIds.get(playerId);
     }
 
     public void updateLeagueMemberStatus(int memberId, boolean isActive) {
-        this.members.put(memberId, isActive);
+        this.memberIds.put(memberId, isActive);
     }
 
     public void eraseGamesLeagueData() {
