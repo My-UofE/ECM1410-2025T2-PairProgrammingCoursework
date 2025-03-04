@@ -7,6 +7,8 @@ import java.util.List;
 public class Manager {
     private List<Player> players = new ArrayList<>();
     private List<League> leagues = new ArrayList<>();
+    private List<GameReport> gameReports = new ArrayList<>();
+
     private int newId = 0;
 
     public int[] getPlayerIds() {
@@ -285,12 +287,15 @@ public class Manager {
         }
     }
 
-    public void registerGameReport(int day, int leagueId,  int playerId, String gameReport ) {
+    public void registerGameReport(int day, int leagueId,  int playerId, String gameReport) {
         // Register game report in database
+        GameReport report = new GameReport(day, leagueId, playerId, gameReport);
+        gameReports.add(report);
     }
 
     public String getGameReport(int day, int leagueId,  int playerId) {
         // Get game report from database
+
     }
 
     public void registerDayScores(int day, int leagueId, int[] scores) {
