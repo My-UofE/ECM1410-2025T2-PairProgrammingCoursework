@@ -295,7 +295,12 @@ public class Manager {
 
     public String getGameReport(int day, int leagueId,  int playerId) {
         // Get game report from database
-
+        for (GameReport report : gameReports) {
+            if (report.getDay() == day && report.getLeagueId() == leagueId && report.getPlayerId() == playerId) {
+                return report.getGameReport();
+            }
+        }
+        return ""; // Return an empty string if no matching game report is found
     }
 
     public void registerDayScores(int day, int leagueId, int[] scores) {

@@ -12,4 +12,20 @@ public class GameReport {
         this.playerId = playerId;
         this.gameReport = gameReport;
     }
+
+    public int getDay() {
+        return day;
+    }
+
+    public int getLeagueId() {
+        return leagueId;
+    }
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public String getGameReport() {
+        return gameReport;
+    }
 }
