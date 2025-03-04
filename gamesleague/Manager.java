@@ -169,12 +169,38 @@ public class Manager {
         }
     }
 
-    public void acceptInviteToLeague(int leagueID) {
+    public void acceptInviteToLeague(int leagueId, int playerId) {
         //waiting for response from module leader
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                leagues.get(i).addLeagueMember(playerId, true);
+            }
+        }
     }
 
     public void removeInviteFromLeague(int leagueId, String email) {
         // Remove invite from database
+        for (Player player : players) {
+            if (player.getEmail() == email) {
+                player.removeInvite(leagueId);
+            }
+        }
+    }
+
+    public String[] getLeagueEmailInvites(int leagueId) {
+        // Get league email invites from database
+    }
+
+    public int[] getLeagueOwners(int leagueId) {
+        // Get league owners from database
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                List<Integer> owners = leagues.get(i).getLeagueOwnersGetter();
+                int[] ownersArray = owners.stream().mapToInt(Integer::intValue).toArray();
+                return ownersArray;
+            }
+        }
+        return new int[0]; // Return empty array if league with given id is not found
     }
 
     public void setLeagueStartDate(int leagueId, int  day) {
@@ -232,7 +258,7 @@ public class Manager {
                 league.setLeagueName(newName);
                 league.setLeagueGameType(leagues.get(i).getLeagueGameType());
                 league.setLeagueId(newId++);
-                List<Integer> owners = leagues.get(i).getLeagueOwners();
+                List<Integer> owners = leagues.get(i).getLeagueOwnersGetter();
                 for (int owner : owners) {
                     league.addLeagueOwner(owner);
                 }

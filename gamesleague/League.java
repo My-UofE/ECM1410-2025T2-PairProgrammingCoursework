@@ -18,7 +18,7 @@ public class League {
         return name;
     }
 
-    public List<Integer> getLeagueOwners() {
+    public List<Integer> getLeagueOwnersGetter() {
         return ownerIds;
     }
 

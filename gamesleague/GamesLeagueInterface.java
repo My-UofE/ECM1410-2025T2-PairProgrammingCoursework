@@ -12,7 +12,7 @@ import java.time.LocalDate;
  * 
  *
  * @author Philip Lewis
- * @version 0.3
+ * @version 0.3.1
  */
 
 
@@ -243,7 +243,7 @@ public interface GamesLeagueInterface extends Serializable {
 
 
     /**
-     * Invites a player to a league.
+     * Invites a potential player (may not yet be site member) to a league.
      * <p>
      * 
      * @param leagueId The ID of the league to invite the player to.
@@ -258,9 +258,13 @@ public interface GamesLeagueInterface extends Serializable {
      * Accepts an invite to a league.
      *
      * @param leagueId The ID of the league to accept the invite to.
+     * @param playerId The ID of the player.
+     * 
      * @throws IDInvalidException If the ID does not match to any league or player in the system.
+     * @throws IllegalOperationException If the player email does not have an active invitation.
      */
-    void acceptInviteToLeague(int leagueId) throws IDInvalidException;
+    void acceptInviteToLeague(int leagueId, int playerId) 
+        throws IDInvalidException, IllegalOperationException;
 
     /**
      * Removes invite from league
@@ -338,7 +342,7 @@ public interface GamesLeagueInterface extends Serializable {
      * @param leagueId The ID of the league to start.
      * @param day Should be set to the epoch day when league will be made active.
      * @throws IDInvalidException If the ID does not match to any league in the system.
-     * @thows IllegalOperationException If the league is already started.
+     * @throws IllegalOperationException If the league is already started.
      */
     void setLeagueStartDate(int leagueId, int  day) 
         throws IDInvalidException, IllegalOperationException;
@@ -352,7 +356,7 @@ public interface GamesLeagueInterface extends Serializable {
      * @throws IDInvalidException If the ID does not match to any league in the system.
      * @throws IllegalOperationException If the league is already closed or invalid day.
      */
-    void setLeagueEndDate(int leagueId) throws IDInvalidException;
+    void setLeagueEndDate(int leagueId, int day) throws IDInvalidException;
 
 
     /**
@@ -399,6 +403,7 @@ public interface GamesLeagueInterface extends Serializable {
      * @throws IllegalNameException If the new name already exists in the platform.
      */
     int cloneLeague(int leagueId, String newName) throws IDInvalidException;
+
 
     /**
      * Checks if player is active in the league.
