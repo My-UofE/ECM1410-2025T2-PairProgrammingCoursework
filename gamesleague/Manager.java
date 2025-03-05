@@ -339,6 +339,21 @@ public class Manager {
 
     public void registerDayScores(int day, int leagueId, int[] scores) {
         // Register day scores in database
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                leagues.get(i).setDayScores(scores, day);
+            }
+        }
+    }
+
+    public int[] getLeaguePlayers(int leagueId) {
+        // Get league players from database
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                return leagues.get(i).getLeaguePlayersGetter();
+            }
+        }
+        return new int[0]; // Return empty array if league with given id is not found
     }
 
     public void voidDayPoints(int day, int leagueId) {
