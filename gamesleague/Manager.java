@@ -189,6 +189,14 @@ public class Manager {
 
     public String[] getLeagueEmailInvites(int leagueId) {
         // Get league email invites from database
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                List<String> invites = leagues.get(i).getLeagueEmailInvitesGetter();
+                String[] invitesArray = invites.toArray(new String[0]);
+                return invitesArray;
+            }
+        }
+        return new String[0]; // Return empty array if league with given id is not found
     }
 
     public int[] getLeagueOwners(int leagueId) {

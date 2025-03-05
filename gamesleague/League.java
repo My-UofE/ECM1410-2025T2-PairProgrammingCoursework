@@ -9,6 +9,7 @@ public class League {
     private String name;
     private List<Integer> ownerIds = new ArrayList<>();
     private Map<Integer, Boolean> memberIds = new HashMap<>();
+    private List<String> emailInvites = new ArrayList<>();
     private GameType gameType;
     private int leagueId;
     private int leagueStartDate;
@@ -16,6 +17,18 @@ public class League {
 
     public String getLeagueName() {
         return name;
+    }
+
+    public List<Integer> getLeagueMembersGetter() {
+        List<Integer> members = new ArrayList<>();
+        for (Map.Entry<Integer, Boolean> entry : memberIds.entrySet()) {
+            members.add(entry.getKey());
+        }
+        return members;
+    }
+
+    public List<String> getLeagueEmailInvitesGetter() {
+        return emailInvites;
     }
 
     public List<Integer> getLeagueOwnersGetter() {
@@ -60,6 +73,10 @@ public class League {
 
     public void addLeagueOwner(int owner) {
         this.ownerIds.add(owner);
+    }
+
+    public void addEmailInvite(String email) {
+        this.emailInvites.add(email);
     }
 
     public void removeLeagueOwners(int owner) {
