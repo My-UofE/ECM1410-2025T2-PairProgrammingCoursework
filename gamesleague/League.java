@@ -9,13 +9,13 @@ public class League {
     private String name;
     private List<Integer> ownerIds = new ArrayList<>();
     private Map<Integer, Boolean> memberIds = new HashMap<>();
-    private Map<Integer, Status> dayActivity = new HashMap<>();
+    private Map<Integer, Status> dayActivity = new HashMap<>(); // day and then activity
     private Map<Integer, Status> playerActivity = new HashMap<>(); // player ID and then status
     private List<String> emailInvites = new ArrayList<>();
-    private Map<Integer, Integer> dayScores = new HashMap<>(); //score and then day
+    private Map<Integer, Integer> dayScores = new HashMap<>(); //day and then scoree
     private GameType gameType;
     private int leagueId;
-    private int leagueStartDate = 0; // Default to 0, maybe change later?
+    private int leagueStartDate = 0; // Default to 0, maybe change later? nooooooooo
     private int leagueEndDate = 0; // Default to 0, maybe change later?
 
     public String getLeagueName() {
@@ -32,6 +32,16 @@ public class League {
 
     public int[] getLeaguePlayersGetter() {
         return memberIds.keySet().stream().mapToInt(i -> i).toArray();
+    }
+
+    public int[] getDayPointsGetter(int day) {
+        List<Integer> scores = new ArrayList<>();
+        for (Integer key : dayScores.keySet()) {
+            if (key == day) {
+                scores.add(dayScores.get(key));
+            }
+        }
+        return scores.stream().mapToInt(Integer::intValue).toArray();
     }
 
     public List<String> getLeagueEmailInvites() {
@@ -124,8 +134,7 @@ public class League {
         this.memberIds.remove(memberId);
     }
 
-    public boolean isLeaguePlayerActive(int leagueId, int playerId) 
-            throws IDInvalidException, IllegalArgumentException {
+    public boolean isLeaguePlayerActive(int leagueId, int playerId) {
         if (!memberIds.containsKey(playerId)) {
             throw new IDInvalidException("Player ID does not match any player in the system.");
         }

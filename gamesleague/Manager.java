@@ -672,10 +672,26 @@ public class Manager {
 
     public int[] getDayScores(int leagueId, int day) {
         // Get day scores from database
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                return leagues.get(i).getDayScores(day);
+            }
+        }
+        throw new IDInvalidException("No league with ID " + leagueId + " found");
     }
 
     public int[] getDayPoints(int leagueId, int day) {
         // Get day points from database
+        if (day < 1 || day > 365) {
+            throw new InvalidDateException("Day must be between 1 and 365");
+        }
+
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                return leagues.get(i).getDayPointsGetter(day);
+            }
+        }
+        throw new IDInvalidException("No league with ID " + leagueId + " found");
     }
 
     public int[] getDayRanking(int leagueId, int day) {
