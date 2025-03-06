@@ -11,7 +11,7 @@ public class League {
     private Map<Integer, Boolean> memberIds = new HashMap<>();
     private Map<Integer, Status> memberActivity = new HashMap<>();
     private List<String> emailInvites = new ArrayList<>();
-    private Map<Integer, Integer> dayScores = new HashMap<>();
+    private Map<Integer, Integer> dayScores = new HashMap<>(); //score and then day
     private GameType gameType;
     private int leagueId;
     private int leagueStartDate = 0; // Default to 0, maybe change later?
@@ -63,7 +63,7 @@ public class League {
 
     public void setDayScores(int[] scores, int day) {
         for (int i = 0; i < scores.length; i++) {
-            dayScores.put(scores[i], day);
+            dayScores.put(day, scores[i]);
 
         }
 
@@ -71,6 +71,15 @@ public class League {
             memberActivity.put(playerId, Status.CLOSED);
         }
     }
+
+    public void voidDayPoints (int day) {
+        for (Integer key : dayScores.keySet()) {
+            if (key == day) {
+                dayScores.put(key, 0);
+            }
+        }
+    }
+
 
     public void setLeagueGameType(GameType gameType) {
         this.gameType = gameType;

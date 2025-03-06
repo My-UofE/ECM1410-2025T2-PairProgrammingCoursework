@@ -9,7 +9,7 @@ public class Manager {
     private List<Player> players = new ArrayList<>();
     private List<League> leagues = new ArrayList<>();
     private List<GameReport> gameReports = new ArrayList<>();
-
+    private int currentDate = LocalDate.now().getDayOfYear();
     private int newId = 0;
 
     public int[] getPlayerIds() {
@@ -632,12 +632,8 @@ public class Manager {
                 if (leagues.get(i).getMemberActivity(leagues.get(i).getLeaguePlayersGetter()[0]) == Status.CLOSED) {
                     throw new IllegalOperationException("Day scores cannot be set after day is closed");
                 }
-                for (int z = 0; z < leagues.size(); z++) {
-                    if (leagues.get(z).getLeagueId() == leagueId) {
-                        leagues.get(z).setDayScores(scores, day);
-                        return;
-                    }
-                }
+                leagues.get(i).setDayScores(scores, day);
+                return;
             }
         }
         throw new IDInvalidException("No league with ID " + leagueId + " found");
@@ -645,6 +641,20 @@ public class Manager {
 
     public void voidDayPoints(int day, int leagueId) {
         // Void day points in database
+        if (currentDate >= day + 2) {
+            throw new IllegalOperationException("Day points cannot be voided after two days");
+        }
+        else if (day < 1 || day > 365) {
+            throw new IllegalArgumentException("Day must be between 1 and 365");
+        }
+
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                leagues.get(i).voidDayPoints(day);
+                return;
+            }
+        }
+        throw new IDInvalidException("No league with ID " + leagueId + " found");
     }
 
     public Status getDayStatus(int leagueId, int day) {
