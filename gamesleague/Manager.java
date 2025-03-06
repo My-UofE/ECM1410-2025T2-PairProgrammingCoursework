@@ -520,60 +520,120 @@ public class Manager {
     public void setLeaguePlayerInactive(int leagueId, int playerId) {
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
-                leagues.get(i).updateLeagueMemberStatus(playerId, false);
+                for (int id : leagues.get(i).getLeaguePlayersGetter()) {
+                    if (id == playerId) {
+                        leagues.get(i).updateLeagueMemberStatus(playerId, false);
+                        return;
+                    }
+                }
+                throw new IllegalOperationException("Player with ID " + playerId + " not found in league");
             }
         }
+        throw new IDInvalidException("No league with ID " + leagueId + " or " + playerId + " found");
     }
 
     public void setLeaguePlayerActive(int leagueId, int playerId) {
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
-                leagues.get(i).updateLeagueMemberStatus(playerId, true);
+                for (int id : leagues.get(i).getLeaguePlayersGetter()) {
+                    if (id == playerId) {
+                        leagues.get(i).updateLeagueMemberStatus(playerId, true);
+                        return;
+                    }
+                }
+                throw new IllegalOperationException("Player with ID " + playerId + " not found in league");
             }
         }
+        throw new IDInvalidException("No league with ID " + leagueId + " or " + playerId + " found");
     }
 
     public void addOwner(int leagueId, int playerId) {
         // Add owner to league
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
-                leagues.get(i).addLeagueOwner(playerId);
+                for (int id: leagues.get(i).getLeaguePlayersGetter()) {
+                    if (id == playerId) {
+                        leagues.get(i).addLeagueOwner(playerId);
+                        return;
+                    }
+                }
+                throw new IllegalOperationException("Player with ID " + playerId + " not found in league");
             }
         }
+        throw new IDInvalidException("No league with ID " + leagueId + " or " + playerId + " found");
     }
 
     public void removeOwner(int leagueId, int playerId) {
         // Remove owner from league
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
-                leagues.get(i).removeLeagueOwners(playerId);
+                if (leagues.get(i).getLeagueOwnersGetter().size() == 1) {
+                    throw new IllegalOperationException("League must have at least one owner");
+                }
+                else {
+                    leagues.get(i).removeLeagueOwners(playerId);
+                    return;
+                }
             }
         }
+        throw new IDInvalidException("No league with ID " + leagueId + " or " + playerId + " found");
     }
 
     public void registerGameReport(int day, int leagueId,  int playerId, String gameReport) {
         // Register game report in database
-        GameReport report = new GameReport(day, leagueId, playerId, gameReport);
-        gameReports.add(report);
+        if (day < 1 || day > 365) {
+            throw new IllegalArgumentException("Day must be between 1 and 365");
+        }
+
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                for (int id: leagues.get(i).getLeaguePlayersGetter()) {
+                    if (id == playerId) {
+                        GameReport report = new GameReport(day, leagueId, playerId, gameReport);
+                        gameReports.add(report);
+                        return;
+                    }
+                }
+            }
+            throw new IDInvalidException("No league with ID " + leagueId + " or " + playerId + " found");
+        }
     }
 
     public String getGameReport(int day, int leagueId,  int playerId) {
         // Get game report from database
-        for (GameReport report : gameReports) {
-            if (report.getDay() == day && report.getLeagueId() == leagueId && report.getPlayerId() == playerId) {
-                return report.getGameReport();
+        if (day < 1 || day > 365) {
+            throw new IllegalArgumentException("Day must be between 1 and 365");
+        }
+
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                for (int id: leagues.get(i).getLeaguePlayersGetter()) {
+                    if (id == playerId) {
+                        for (GameReport report : gameReports) {
+                            if (report.getDay() == day && report.getLeagueId() == leagueId && report.getPlayerId() == playerId) {
+                                return report.getGameReport();
+                            }
+                        }
+                    }
+                }
             }
         }
-        return ""; // Return an empty string if no matching game report is found
+        throw new IDInvalidException("No league with ID " + leagueId + " or " + playerId + " found");
     }
 
     public void registerDayScores(int day, int leagueId, int[] scores) {
         // Register day scores in database
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
-                leagues.get(i).setDayScores(scores, day);
+                for (int z = 0; z < leagues.size(); z++) {
+                    if (leagues.get(z).getLeagueId() == leagueId) {
+                        leagues.get(z).setDayScores(scores, day);
+                        return;
+                    }
+                }
             }
         }
+        throw new IDInvalidException("No league with ID " + leagueId + " found");
     }
 
     public void voidDayPoints(int day, int leagueId) {

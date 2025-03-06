@@ -21,6 +21,10 @@ public class League {
         return name;
     }
 
+    public int getLengthOwnerIds() {
+        return ownerIds.size();
+    }
+
     public int[] getLeaguePlayersGetter() {
         return memberIds.keySet().stream().mapToInt(i -> i).toArray();
     }
