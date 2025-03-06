@@ -9,7 +9,8 @@ public class League {
     private String name;
     private List<Integer> ownerIds = new ArrayList<>();
     private Map<Integer, Boolean> memberIds = new HashMap<>();
-    private Map<Integer, Status> memberActivity = new HashMap<>();
+    private Map<Integer, Status> dayActivity = new HashMap<>();
+    private Map<Integer, Status> playerActivity = new HashMap<>(); // player ID and then status
     private List<String> emailInvites = new ArrayList<>();
     private Map<Integer, Integer> dayScores = new HashMap<>(); //score and then day
     private GameType gameType;
@@ -25,8 +26,8 @@ public class League {
         return ownerIds.size();
     }
 
-    public Status getMemberActivity(int playerId) {
-        return memberActivity.get(playerId);
+    public Status getDayActivity(int day) {
+        return dayActivity.get(day);
     }
 
     public int[] getLeaguePlayersGetter() {
@@ -68,8 +69,10 @@ public class League {
         }
 
         for (Integer playerId : memberIds.keySet()) {
-            memberActivity.put(playerId, Status.CLOSED);
+            playerActivity.put(playerId, Status.CLOSED);
         }
+
+        dayActivity.put(day, Status.CLOSED);
     }
 
     public void voidDayPoints (int day) {

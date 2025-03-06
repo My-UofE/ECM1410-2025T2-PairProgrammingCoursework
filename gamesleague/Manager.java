@@ -595,14 +595,14 @@ public class Manager {
                     }
                 }
             }
-            throw new IDInvalidException("No league with ID " + leagueId + " or " + playerId + " found");
         }
+        throw new IDInvalidException("No league with ID " + leagueId + " or " + playerId + " found");
     }
 
     public String getGameReport(int day, int leagueId,  int playerId) {
         // Get game report from database
         if (day < 1 || day > 365) {
-            throw new IllegalArgumentException("Day must be between 1 and 365");
+            throw new InvalidDateException("Day must be between 1 and 365");
         }
 
         for (int i = 0; i < leagues.size(); i++) {
@@ -629,7 +629,7 @@ public class Manager {
 
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
-                if (leagues.get(i).getMemberActivity(leagues.get(i).getLeaguePlayersGetter()[0]) == Status.CLOSED) {
+                if (leagues.get(i).getDayActivity(day) == Status.CLOSED) {
                     throw new IllegalOperationException("Day scores cannot be set after day is closed");
                 }
                 leagues.get(i).setDayScores(scores, day);
@@ -659,6 +659,15 @@ public class Manager {
 
     public Status getDayStatus(int leagueId, int day) {
         // Get day status from database
+        if (day < 1 || day > 365) {
+            throw new InvalidDateException("Day must be between 1 and 365");
+        }
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                return leagues.get(i).getDayActivity(day);
+            }
+        }
+        throw new IDInvalidException("No league with ID " + leagueId + " found");
     }
 
     public int[] getDayScores(int leagueId, int day) {
