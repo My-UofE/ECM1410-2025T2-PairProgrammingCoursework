@@ -623,8 +623,15 @@ public class Manager {
 
     public void registerDayScores(int day, int leagueId, int[] scores) {
         // Register day scores in database
+        if (currentDate >= day + 2) {
+            throw new IllegalOperationException("Day scores cannot be set after two days");
+        }
+
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
+                if (leagues.get(i).getMemberActivity(leagues.get(i).getLeaguePlayersGetter()[0]) == Status.CLOSED) {
+                    throw new IllegalOperationException("Day scores cannot be set after day is closed");
+                }
                 for (int z = 0; z < leagues.size(); z++) {
                     if (leagues.get(z).getLeagueId() == leagueId) {
                         leagues.get(z).setDayScores(scores, day);

@@ -25,6 +25,10 @@ public class League {
         return ownerIds.size();
     }
 
+    public Status getMemberActivity(int playerId) {
+        return memberActivity.get(playerId);
+    }
+
     public int[] getLeaguePlayersGetter() {
         return memberIds.keySet().stream().mapToInt(i -> i).toArray();
     }
