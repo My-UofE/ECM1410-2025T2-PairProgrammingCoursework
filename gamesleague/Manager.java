@@ -2,6 +2,7 @@ package gamesleague;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Manager {
@@ -56,7 +57,7 @@ public class Manager {
             }
         }
         if (!foundId) {
-            throw new IllegalArgumentException("Player with ID " + id + " not found");
+            throw new IDInvalidException("Player with ID " + id + " not found");
         }
     }
 
@@ -66,21 +67,28 @@ public class Manager {
                 return player.isDeactivated();
             }
         }
-        return false; // Return false if player with given id is not found
+        throw new IDInvalidException("Player with ID " + id + " not found");
     }
 
     public void updatePlayerDisplayName(int id, String displayName) {
+        if (displayName.endsWith(" ") || displayName.startsWith(" ") || displayName == null) {
+            throw new IllegalNameException("Display name cannot start or end with a space or be null");
+        }
+        if (displayName.length() < 1 || displayName.length() > 20) {
+            throw new IllegalNameException("Display name must be between 1 and 20 characters");
+        }
         for (Player player : players) {
             if (player.getId() == id) {
                 player.updateDisplayName(displayName);
                 break;
             }
         }
+        throw new IDInvalidException("Player with ID " + id + " not found");
     }
 
-    public int getPlayerId(int id) {
+    public int getPlayerId(String email) {
         for (Player player : players) {
-            if (player.getId() == id) {
+            if (player.getEmail() == email) {
                 return player.getId();
             }
         }
@@ -93,7 +101,7 @@ public class Manager {
                 return player.getDisplayName();
             }
         }
-        return null; // Return null if player with given id is not found
+        throw new IDInvalidException("Player with ID " + id + " not found");
     }
 
     public String getPlayerEmail(int id) {
@@ -102,7 +110,7 @@ public class Manager {
                 return player.getEmail();
             }
         }
-        return null; // Return null if player with given id is not found
+        throw new IDInvalidException("Player with ID " + id + " not found");
     }
 
     public int[] getPlayerLeagues(int id) {
@@ -111,7 +119,7 @@ public class Manager {
                 return player.getLeagues();
             }
         }
-        return new int[0]; // Return empty array if player with given id is not found
+        throw new IDInvalidException("Player with ID " + id + " not found");
     }
 
     public int[] getPlayerOwnedLeagues(int id) {
@@ -120,7 +128,7 @@ public class Manager {
                 return player.getOwnedLeagues();
             }
         }
-        return new int[0];
+        throw new IDInvalidException("Player with ID " + id + " not found");
     }
 
     public int[] getPlayerInvites(int id) {
@@ -129,7 +137,7 @@ public class Manager {
                 return player.getInvites();
             }
         }
-        return new int[0];
+        throw new IDInvalidException("Player with ID " + id + " not found");
     }
 
     public int getPlayerRoundsPlayed(int id) {
@@ -138,7 +146,7 @@ public class Manager {
                 return player.getRoundsPlayed();
             }
         }
-        return -1; // Return -1 if player with given id is not found
+        throw new IDInvalidException("Player with ID " + id + " not found");
     }
 
     public double getPlayerRoundsPercentage(int id) {
@@ -147,7 +155,7 @@ public class Manager {
                 return player.getRoundsPercentage();
             }
         }
-        return -1.0; // Return -1.0 if player with given id is not found
+        throw new IDInvalidException("Player with ID " + id + " not found");
     }
 
     public LocalDate getPlayerJoinDate(int id) {
@@ -156,10 +164,39 @@ public class Manager {
                 return player.getJoinDate();
             }
         }
-        return null; // Return null if player with given id is not found
+        throw new IDInvalidException("Player with ID " + id + " not found");
+    }
+
+    public int[] getLeagueIds() {
+        int[] leagueIds = new int[leagues.size()];
+        for (int i = 0; i < leagues.size(); i++) {
+            leagueIds[i] = leagues.get(i).getLeagueId();
+        }
+        return leagueIds;
     }
 
     public void createLeague(int owner, String name, GameType gameType) {
+        boolean foundId = false;
+        for (Player player : players) {
+            if (player.getId() == owner) {
+                foundId = true;
+                break;
+            }
+        }
+        if (!foundId) {
+            throw new IllegalArgumentException("Player with ID " + owner + " not found");
+        }
+        if (name.endsWith(" ") || name.startsWith(" ") || name == null) {
+            throw new IDInvalidException("Name cannot start or end with a space or be null");
+        }
+        if (name.length() < 1 || name.length() > 20) {
+            throw new IllegalNameException("Name must be between 1 and 20 characters");
+        }
+        for (League league : leagues) {
+            if (league.getLeagueName().equals(name)) {
+                throw new IllegalNameException("League name already exists");
+            }
+        }
         League league = new League();
         league.setLeagueName(name);
         league.setLeagueGameType(gameType);
@@ -168,34 +205,93 @@ public class Manager {
         leagues.add(league);
     }
 
-    public void updateLeagueName(int leagueId, String newName) {
-        // Update league name in database
-        for (int i = 0; i < leagues.size(); i++) {
-            if (leagues.get(i).getLeagueId() == leagueId) {
-                leagues.get(i).setLeagueName(newName);
-            }
-        }
-    }
-
     public void removeLeague(int leagueId) {
         // Remove league from database
+        boolean found = false;
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
                 leagues.remove(i);
+                found = true;
+                break;
             }
+        }
+        if (!found) {
+            throw new IDInvalidException("League with ID " + leagueId + " not found");
+        }
+    }
+
+    public String getLeagueName(int leagueId) {
+        for (League league : leagues) {
+            if (league.getLeagueId() == leagueId) {
+                return league.getLeagueName();
+            }
+        }
+        throw new IDInvalidException("League with ID " + leagueId + " not found");
+    }
+
+    public void updateLeagueName(int leagueId, String newName) {
+        // Update league name in database
+        if (newName.endsWith(" ") || newName.startsWith(" ") || newName == null) {
+            throw new IDInvalidException("Name cannot start or end with a space or be null");
+        }
+        if (newName.length() < 1 || newName.length() > 20) {
+            throw new IllegalNameException("Name must be between 1 and 20 characters");
+        }
+        boolean found = false;
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                leagues.get(i).setLeagueName(newName);
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            throw new IDInvalidException("League with ID " + leagueId + " not found");
         }
     }
 
     public void invitePlayerToLeague(int leagueId, String email) {
+        if (email.isEmpty() || email == null || !email.contains("@")) {
+            throw new InvalidEmailException("Email cannot be empty or null and must contain an @");
+        }
+        boolean found = false;
         for (Player player : players) {
             if (player.getEmail() == email) {
-                player.addInvite(leagueId);
+                for (League league : leagues) {
+                    if (league.getLeagueId() == leagueId) {
+                        league.addEmailInvite(email);
+                        player.addInvite(leagueId);
+                        found = true;
+                        break;
+                    }
+                }
             }
+        }
+        if (!found) {
+            throw new IDInvalidException("Player with email " + email + " or League with id " + leagueId + " not found");
         }
     }
 
     public void acceptInviteToLeague(int leagueId, int playerId) {
-        //waiting for response from module leader
+        boolean found = false;
+        for (Player player : players) {
+            if (player.getId() == playerId) {
+                if (!Arrays.asList(player.getInvites()).contains(leagueId)) {
+                    throw new IllegalOperationException("Player has not been invited to league");
+                }
+                player.removeInvite(leagueId);
+            }
+            for (League league : leagues) {
+                if (league.getLeagueId() == leagueId) {
+                    league.removeEmailInvite(player.getEmail());
+                    found = true;
+                    break;
+                }
+            }
+        }
+        if (!found) {
+            throw new IDInvalidException("Player with ID " + playerId + " or League with id " + leagueId + " not found");
+        }
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
                 leagues.get(i).addLeagueMember(playerId, true);
@@ -205,23 +301,92 @@ public class Manager {
 
     public void removeInviteFromLeague(int leagueId, String email) {
         // Remove invite from database
+        boolean found = false;
         for (Player player : players) {
             if (player.getEmail() == email) {
+                if (!Arrays.asList(player.getInvites()).contains(leagueId)) {
+                    throw new IllegalOperationException("Player has not been invited to league");
+                }
                 player.removeInvite(leagueId);
             }
+            for (League league : leagues) {
+                if (league.getLeagueId() == leagueId) {
+                    league.removeEmailInvite(email);
+                    found = true;
+                    break;
+                }
+            }
+        }
+        if (!found) {
+            throw new IDInvalidException("Player with email " + email + " or League with id " + leagueId + " not found");
         }
     }
 
     public String[] getLeagueEmailInvites(int leagueId) {
-        // Get league email invites from database
+        List<String> invites = new ArrayList<>();
+        boolean found = false;
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
-                List<String> invites = leagues.get(i).getLeagueEmailInvitesGetter();
-                String[] invitesArray = invites.toArray(new String[0]);
-                return invitesArray;
+                invites = leagues.get(i).getLeagueEmailInvites();
+                found = true;
+                break;
             }
         }
-        return new String[0]; // Return empty array if league with given id is not found
+        if (!found) {
+            throw new IDInvalidException("League with ID " + leagueId + " not found");
+        }
+        List<String> emails = new ArrayList<>();
+        for (Player player : players) {
+            emails.add(player.getEmail());
+        }
+        List<String> nonPlayers = new ArrayList<>();
+        for (String invite : invites) {
+            if (!emails.contains(invite)) {
+                nonPlayers.add(invite);
+            }
+        }
+        return nonPlayers.toArray(new String[0]);
+    }
+
+    public int[] getLeaguePlayerInvites(int leagueId) {
+        List<String> invites = new ArrayList<>();
+        boolean found = false;
+        for (int i = 0; i < leagues.size(); i++) {
+            if (leagues.get(i).getLeagueId() == leagueId) {
+                invites = leagues.get(i).getLeagueEmailInvites();
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            throw new IDInvalidException("League with ID " + leagueId + " not found");
+        }
+        List<String> emails = new ArrayList<>();
+        for (Player player : players) {
+            emails.add(player.getEmail());
+        }
+        List<String> existingPlayersEmails = new ArrayList<>();
+        for (String invite : invites) {
+            if (emails.contains(invite)) {
+                existingPlayersEmails.add(invite);
+            }
+        }
+        List<Integer> existingPlayersIds = new ArrayList<>();
+        for (Player player : players) {
+            if (existingPlayersEmails.contains(player.getEmail())) {
+                existingPlayersIds.add(player.getId());
+            }
+        }
+        return existingPlayersIds.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    public int[] getLeaguePlayers(int leagueId) {
+        for (League league : leagues) {
+            if (league.getLeagueId() == leagueId) {
+                return league.getLeaguePlayersGetter();
+            }
+        }
+        throw new IDInvalidException("League with ID " + leagueId + " not found");
     }
 
     public int[] getLeagueOwners(int leagueId) {
@@ -233,24 +398,43 @@ public class Manager {
                 return ownersArray;
             }
         }
-        return new int[0]; // Return empty array if league with given id is not found
+        throw new IDInvalidException("League with ID " + leagueId + " not found");
     }
 
     public void setLeagueStartDate(int leagueId, int  day) {
         // Set start date in database
+        boolean found = false;
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
+                if (leagues.get(i).getLeagueStartDate() != 0) {
+                    throw new IllegalOperationException("League start date cannot be set more than once");
+                }
                 leagues.get(i).setLeagueStartDate(day);
+                found = true;
+                break;
             }
+        }
+        if (!found) {
+            throw new IDInvalidException("League with ID " + leagueId + " not found");
         }
     }
 
     public void setLeagueEndDate(int leagueId, int day) {
         // Set end date in database
+        boolean found = false;
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
+                if (leagues.get(i).getLeagueEndDate() != 0) {
+                    throw new IllegalOperationException("League start date cannot be set more than once");
+                }
+
                 leagues.get(i).setLeagueEndDate(day);
+                found = true;
+                break;
             }
+        }
+        if (!found) {
+            throw new IDInvalidException("League with ID " + leagueId + " not found");
         }
     }
 
@@ -261,7 +445,7 @@ public class Manager {
                 return leagues.get(i).getLeagueStartDate();
             }
         }
-        return -1; // Return -1 if league with given id is not found
+        throw new IDInvalidException("League with ID " + leagueId + " not found");
     }
 
     public int getLeagueCloseDate(int leagueId) {
@@ -271,20 +455,31 @@ public class Manager {
                 return leagues.get(i).getLeagueEndDate();
             }
         }
-        return -1; // Return -1 if league with given id is not found
+        throw new IDInvalidException("League with ID " + leagueId + " not found");
     }
 
     public void resetLeague(int leagueId) {
         // Reset league in database
+        boolean found = false;
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
                 leagues.get(i).eraseGamesLeagueData();
+                found = true;
+                break;
             }
+        }
+        if (!found) {
+            throw new IDInvalidException("League with ID " + leagueId + " not found");
         }
     }
 
     public int cloneLeague(int leagueId, String newName) {
         // Clone league in database
+        for (League checkLeague : leagues) {
+            if (checkLeague.getLeagueName().equals(newName)) {
+                throw new IllegalNameException("League name already exists");
+            }
+        }
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
                 League league = new League();
@@ -299,17 +494,27 @@ public class Manager {
                 return league.getLeagueId(); // Return the new league ID
             }
         }
-        return -1; // Return -1 if league with given id is not found
+        throw new IDInvalidException("League with ID " + leagueId + " not found");
     }
 
     public boolean isLeaguePlayerActive(int leagueId, int playerId) {
         // Check if player is active in league
+        boolean foundPlayer = false;
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
+                for (int id : leagues.get(i).getLeaguePlayersGetter()) {
+                    if (id == playerId) {
+                        foundPlayer = true;
+                        break;
+                    }
+                }
+                if (!foundPlayer) {
+                    throw new IllegalOperationException("Player with ID " + playerId + " not found in league");
+                }
                 return leagues.get(i).isLeaguePlayerActive(leagueId, playerId);
             }
         }
-        return false; // Return false if league with given id is not found 
+        throw new IDInvalidException("No league with ID " + leagueId + " or " + playerId + " found");
     }
 
     public void setLeaguePlayerInactive(int leagueId, int playerId) {
@@ -369,16 +574,6 @@ public class Manager {
                 leagues.get(i).setDayScores(scores, day);
             }
         }
-    }
-
-    public int[] getLeaguePlayers(int leagueId) {
-        // Get league players from database
-        for (int i = 0; i < leagues.size(); i++) {
-            if (leagues.get(i).getLeagueId() == leagueId) {
-                return leagues.get(i).getLeaguePlayersGetter();
-            }
-        }
-        return new int[0]; // Return empty array if league with given id is not found
     }
 
     public void voidDayPoints(int day, int leagueId) {

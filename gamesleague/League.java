@@ -14,8 +14,8 @@ public class League {
     private Map<Integer, Integer> dayScores = new HashMap<>();
     private GameType gameType;
     private int leagueId;
-    private int leagueStartDate;
-    private int leagueEndDate;
+    private int leagueStartDate = 0; // Default to 0, maybe change later?
+    private int leagueEndDate = 0; // Default to 0, maybe change later?
 
     public String getLeagueName() {
         return name;
@@ -25,7 +25,7 @@ public class League {
         return memberIds.keySet().stream().mapToInt(i -> i).toArray();
     }
 
-    public List<String> getLeagueEmailInvitesGetter() {
+    public List<String> getLeagueEmailInvites() {
         return emailInvites;
     }
 
@@ -86,6 +86,10 @@ public class League {
 
     public void addEmailInvite(String email) {
         this.emailInvites.add(email);
+    }
+
+    public void removeEmailInvite(String email) {
+        this.emailInvites.remove(email);
     }
 
     public void removeLeagueOwners(int owner) {
