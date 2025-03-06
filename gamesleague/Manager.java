@@ -688,7 +688,7 @@ public class Manager {
 
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
-                return leagues.get(i).getDayPointsGetter(day);
+                return leagues.get(i).getDayScoresGetter(day);
             }
         }
         throw new IDInvalidException("No league with ID " + leagueId + " found");
