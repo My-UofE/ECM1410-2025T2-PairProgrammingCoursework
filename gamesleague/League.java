@@ -9,6 +9,7 @@ public class League {
     private String name;
     private List<Integer> ownerIds = new ArrayList<>();
     private Map<Integer, Boolean> memberIds = new HashMap<>();
+    private Map<Integer, Status> memberIdActivity = new HashMap<>();
     private List<String> emailInvites = new ArrayList<>();
     private Map<Integer, Integer> dayScores = new HashMap<>();
     private GameType gameType;
@@ -55,6 +56,11 @@ public class League {
     public void setDayScores(int[] scores, int day) {
         for (int i = 0; i < scores.length; i++) {
             dayScores.put(scores[i], day);
+
+        }
+
+        for (Integer playerId : memberIds.keySet()) {
+            memberIds.put(playerId, Status.CLOSED);
         }
     }
 
