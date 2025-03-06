@@ -9,7 +9,7 @@ public class League {
     private String name;
     private List<Integer> ownerIds = new ArrayList<>();
     private Map<Integer, Boolean> memberIds = new HashMap<>();
-    private Map<Integer, Status> memberIdActivity = new HashMap<>();
+    private Map<Integer, Status> memberActivity = new HashMap<>();
     private List<String> emailInvites = new ArrayList<>();
     private Map<Integer, Integer> dayScores = new HashMap<>();
     private GameType gameType;
@@ -60,7 +60,7 @@ public class League {
         }
 
         for (Integer playerId : memberIds.keySet()) {
-            memberIds.put(playerId, Status.CLOSED);
+            memberActivity.put(playerId, Status.CLOSED);
         }
     }
 
