@@ -20,6 +20,23 @@ public class Manager {
     }
 
     public Player createPlayer(String email, String displayName, String name, String phone) {
+        if (displayName.endsWith(" ") || displayName.startsWith(" ") || displayName == null) {
+            throw new IllegalNameException("Display name cannot start or end with a space or be null");
+        }
+        if (name.length() < 5 || name.length() > 50) {
+            throw new IllegalNameException("Name must be between 5 and 50 characters");
+        }
+        if (displayName.length() < 1 || displayName.length() > 20) {
+            throw new IllegalNameException("Display name must be between 1 and 20 characters");
+        }
+        if (email.isEmpty() || email == null || !email.contains("@")) {
+            throw new InvalidEmailException("Email cannot be empty or null and must contain an @");
+        }
+        for (Player player : players) {
+            if (player.getEmail().equals(email)) {
+                throw new IllegalEmailException("Email already exists");
+            }
+        }
         Player player = new Player();
         player.createPlayer(email, displayName, name, phone);
         players.add(player);
@@ -27,11 +44,19 @@ public class Manager {
     }
 
     public void deactivatePlayer(int id) {
+        boolean foundId = false;
         for (Player player : players) {
             if (player.getId() == id) {
+                if (player.getOwnedLeagues().length > 0) {
+                    throw new IllegalOperationException("Player is an owner of one or more leagues");
+                }
                 player.deactivate();
+                foundId = true;
                 break;
             }
+        }
+        if (!foundId) {
+            throw new IllegalArgumentException("Player with ID " + id + " not found");
         }
     }
 
