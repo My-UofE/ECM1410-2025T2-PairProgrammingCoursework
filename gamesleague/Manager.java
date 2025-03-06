@@ -670,8 +670,12 @@ public class Manager {
         throw new IDInvalidException("No league with ID " + leagueId + " found");
     }
 
-    public int[] getDayPoints(int leagueId, int day) {
-        // Get day points from database
+    public int[] getDayScore(int leagueId, int day) {
+        // Get the scores for each player
+    }
+
+    public int[] getDayPoints(int leagueId, int day) { // THIS IS DIFFERENT FROM SCORE WTFFFFFFFF
+        // Get all the points for the day
         if (day < 1 || day > 365) {
             throw new InvalidDateException("Day must be between 1 and 365");
         }
