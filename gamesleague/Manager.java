@@ -670,16 +670,6 @@ public class Manager {
         throw new IDInvalidException("No league with ID " + leagueId + " found");
     }
 
-    public int[] getDayScores(int leagueId, int day) {
-        // Get day scores from database
-        for (int i = 0; i < leagues.size(); i++) {
-            if (leagues.get(i).getLeagueId() == leagueId) {
-                return leagues.get(i).getDayScoresGetter(day);
-            }
-        }
-        throw new IDInvalidException("No league with ID " + leagueId + " found");
-    }
-
     public int[] getDayPoints(int leagueId, int day) {
         // Get day points from database
         if (day < 1 || day > 365) {
@@ -688,7 +678,7 @@ public class Manager {
 
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
-                return leagues.get(i).getDayScoresGetter(day);
+                return leagues.get(i).getDayPointsGetter(day);
             }
         }
         throw new IDInvalidException("No league with ID " + leagueId + " found");
