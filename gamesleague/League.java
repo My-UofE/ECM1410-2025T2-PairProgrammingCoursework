@@ -34,7 +34,7 @@ public class League {
         return memberIds.keySet().stream().mapToInt(i -> i).toArray();
     }
 
-    public int[] getDayPointsGetter(int day) {
+    public int[] getDayScoresGetter(int day) {
         List<Integer> scores = new ArrayList<>();
         for (Integer key : dayScores.keySet()) {
             if (key == day) {
