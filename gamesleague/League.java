@@ -12,7 +12,8 @@ public class League {
     private Map<Integer, Status> dayActivity = new HashMap<>(); // day and then activity
     private Map<Integer, Status> playerActivity = new HashMap<>(); // player ID and then status
     private List<String> emailInvites = new ArrayList<>();
-    private Map<Integer, Integer> dayScores = new HashMap<>(); //day and then scoree
+    private Map<Integer, Map<Integer, Integer>> dayScorePlayer = new HashMap<>(); //day, (score, player ID)
+    private Map<Integer, Map<Integer, Integer>> dayPointsPlayer = new HashMap<>(); //day, (score, player ID) THIS IS FOR LEAGUE POINTS
     private GameType gameType;
     private int leagueId;
     private int leagueStartDate = 0; // Default to 0, maybe change later? nooooooooo
@@ -34,14 +35,12 @@ public class League {
         return memberIds.keySet().stream().mapToInt(i -> i).toArray();
     }
 
-    public int[] getDayPointsGetter(int day) {
-        List<Integer> scores = new ArrayList<>();
-        for (Integer key : dayScores.keySet()) {
-            if (key == day) {
-                scores.add(dayScores.get(key));
-            }
-        }
-        return scores.stream().mapToInt(Integer::intValue).toArray();
+    public Map<Integer, Map<Integer, Integer>> getDayScorePlayer() {
+        return dayScorePlayer;
+    }
+
+    public Map<Integer, Map<Integer, Integer>> getDayPointsPlayer() {
+        return dayPointsPlayer;
     }
 
     public List<String> getLeagueEmailInvites() {
@@ -72,27 +71,33 @@ public class League {
         this.name = name;
     }
 
-    public void setDayScores(int[] scores, int day) {
-        for (int i = 0; i < scores.length; i++) {
-            dayScores.put(day, scores[i]);
-
-        }
-
-        for (Integer playerId : memberIds.keySet()) {
-            playerActivity.put(playerId, Status.CLOSED);
-        }
-
-        dayActivity.put(day, Status.CLOSED);
-    }
-
-    public void voidDayPoints (int day) {
-        for (Integer key : dayScores.keySet()) {
-            if (key == day) {
-                dayScores.put(key, 0);
-            }
+    public void setDayScore(int day, int score, int playerId) {
+        if (dayScorePlayer.containsKey(day)) {
+            dayScorePlayer.get(day).put(score, playerId);
+        } else {
+            Map<Integer, Integer> scorePlayer = new HashMap<>();
+            scorePlayer.put(score, playerId);
+            dayScorePlayer.put(day, scorePlayer);
         }
     }
 
+    public void setDayPoints(int day, int points, int playerId) {
+        if (dayPointsPlayer.containsKey(day)) {
+            dayPointsPlayer.get(day).put(points, playerId);
+        } else {
+            Map<Integer, Integer> pointsPlayer = new HashMap<>();
+            pointsPlayer.put(points, playerId);
+            dayPointsPlayer.put(day, pointsPlayer);
+        }
+    }
+
+    public void addDayActivity(int day, Status status) {
+        dayActivity.put(day, status);
+    }
+
+    public void setPlayerActivity(int playerId, Status status) {
+        playerActivity.put(playerId, status);
+    }
 
     public void setLeagueGameType(GameType gameType) {
         this.gameType = gameType;

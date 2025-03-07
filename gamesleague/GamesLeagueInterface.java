@@ -418,7 +418,7 @@ public interface GamesLeagueInterface extends Serializable {
         throws IDInvalidException, IllegalArgumentException;
 
     /** 
-     * Sets a player to be registered as inactive in the league.
+     * Sets a player to be Daysed as inactive in the league.
      * 
      * @param leagueId The ID of the league.
      * @param playerId The ID of the player.
