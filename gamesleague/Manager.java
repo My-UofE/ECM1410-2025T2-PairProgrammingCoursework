@@ -4,9 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
 
 public class Manager {
-    private List<Player> players = new ArrayList<>();
+    private List<Player> players = new ArrayList<>(); // STORES ACTUAL PLAYERS, NOT IDS
     private List<League> leagues = new ArrayList<>();
     private List<GameReport> gameReports = new ArrayList<>();
     private int currentDate = LocalDate.now().getDayOfYear();
@@ -741,5 +745,88 @@ public class Manager {
 
     public int[] getYearRanking(int leagueId, int day) {
         // Get year ranking from database
+    }
+
+    public void eraseGamesLeagueData() {
+        // Erase all data from database
+        leagues.clear();
+        gameReports.clear();
+        this.newId = 0;
+    }
+
+    public void saveGamesLeagueData(String filename) { //tbh we should check if this method actually works ngl
+        // Save data to file
+        File file = new File(filename);
+        try {
+            FileWriter writer = new FileWriter(file);
+            writer.write("Players\n");
+            for (Player player : players) {
+                writer.write(player.toString() + "\n");
+            }
+            writer.write("Leagues\n");
+            for (League league : leagues) {
+                writer.write(league.toString() + "\n");
+            }
+            writer.write("GameReports\n");
+            for (GameReport report : gameReports) {
+                writer.write(report.toString() + "\n");
+            }
+            writer.write("CurrentDate\n");
+            writer.write(currentDate + "\n");
+            writer.write("NewId\n");
+            writer.write(newId + "\n");
+            writer.close();
+        } 
+        catch (IOException e) {
+            System.err.println("Error saving data to file");
+        }
+    }
+
+    public void loadGamesLeagueData(String filename) {
+        // Load data from file
+        File file = new File(filename);
+        try {
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            if (line.equals("Players")) {
+                while (scanner.hasNextLine()) {
+                    line = scanner.nextLine();
+                    line = line.substring(line.indexOf("{") + 1, line.lastIndexOf("}"));
+                    String[] playerData = line.split(",");
+                    Integer newId;
+                    String email;
+                    String displayName;
+                    String name;
+                    String phone;
+                    for (String data : playerData) {
+                        String[] playerInfo = data.split("=");
+                        if (playerInfo[0].equals("id")) {
+                            newId = Integer.parseInt(playerInfo[1]);
+                        }
+                        if (playerInfo[0].equals("email")) {
+                            email = playerInfo[1];
+                        }
+                        if (playerInfo[0].equals("displayName")) {
+                            displayName = playerInfo[1];
+                        }
+                        if (playerInfo[0].equals("name")) {
+                            name = playerInfo[1];
+                        }
+                        if (playerInfo[0].equals("phone")) {
+                            phone = playerInfo[1];
+                        }
+                    }
+                    Player player = new Player();
+                    player.createPlayer(email, displayName, name, phone);
+                    players.add(player);
+                }
+            }
+            scanner.close();
+        } catch (IOException e) {
+            System.err.println("Error loading data from file");
+        } catch (ClassNotFoundException e) {
+            System.err.println("Class not found");
+        }
     }
 }

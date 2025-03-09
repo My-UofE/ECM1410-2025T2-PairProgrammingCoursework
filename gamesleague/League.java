@@ -19,6 +19,13 @@ public class League {
     private int leagueStartDate = 0; // Default to 0, maybe change later? nooooooooo
     private int leagueEndDate = 0; // Default to 0, maybe change later?
 
+    public int createLeague(int owner, String name, GameType gameType) {
+        this.name = name;
+        this.ownerIds.add(owner);
+        this.gameType = gameType;
+        return this.leagueId;
+    }
+
     public String getLeagueName() {
         return name;
     }
@@ -150,15 +157,21 @@ public class League {
         this.memberIds.put(memberId, isActive);
     }
 
-    public void eraseGamesLeagueData() {
-        // Erase all data from database
-    }
-
-    public void saveGamesLeagueData(String filename) {
-        // Save data to file
-    }
-
-    public void loadGamesLeagueData(String filename) {
-        // Load data from file
+    @Override
+    public String toString() {
+        return "League{" +
+                "name='" + name + '\'' +
+                ", ownerIds=" + ownerIds +
+                ", memberIds=" + memberIds +
+                ", dayActivity=" + dayActivity +
+                ", playerActivity=" + playerActivity +
+                ", emailInvites=" + emailInvites +
+                ", dayScorePlayer=" + dayScorePlayer +
+                ", dayPointsPlayer=" + dayPointsPlayer +
+                ", gameType=" + gameType +
+                ", leagueId=" + leagueId +
+                ", leagueStartDate=" + leagueStartDate +
+                ", leagueEndDate=" + leagueEndDate +
+                '}';
     }
 }
