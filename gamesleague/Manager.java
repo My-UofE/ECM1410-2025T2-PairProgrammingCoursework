@@ -44,8 +44,7 @@ public class Manager {
             }
         }
         Player player = new Player();
-        player.createPlayer(email, displayName, name, phone);
-        players.add(player);
+        player.setPlayer(newPlayerId++, email, displayName, name, phone);
         return player;
     }
 
@@ -753,7 +752,7 @@ public class Manager {
         // Erase all data from database
         leagues.clear();
         gameReports.clear();
-        this.newId = 0;
+        this.newLeagueId = 0;
     }
 
     public void saveGamesLeagueData(String filename) { //tbh we should check if this method actually works ngl

@@ -19,14 +19,23 @@ public class Player {
     private double roundsPercentage = 0.0;
     private LocalDate joinDate = LocalDate.now(); // To later be changed
 
-    public int createPlayer(String email, String displayName, String name, String phone) {
-        this.id = ++lastId; // Increment the lastId and assign it to the player's ID
+    // public int createPlayer(String email, String displayName, String name, String phone) {
+    //     this.id = ++lastId; // Increment the lastId and assign it to the player's ID
+    //     this.email = email;
+    //     this.displayName = displayName;
+    //     this.name = name;
+    //     this.phone = phone;
+    //     this.isActive = true;
+    //     return this.id; // Return the unique ID
+    // }
+
+    public void setPlayer(int id, String email, String displayName, String name, String phone) {
+        this.id = id;
         this.email = email;
         this.displayName = displayName;
         this.name = name;
         this.phone = phone;
         this.isActive = true;
-        return this.id; // Return the unique ID
     }
 
     public void deactivate() {
