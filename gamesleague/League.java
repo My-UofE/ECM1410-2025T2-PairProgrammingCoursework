@@ -15,16 +15,9 @@ public class League {
     private Map<Integer, Map<Integer, Integer>> dayScorePlayer = new HashMap<>(); //day, (score, player ID)
     private Map<Integer, Map<Integer, Integer>> dayPointsPlayer = new HashMap<>(); //day, (score, player ID) THIS IS FOR LEAGUE POINTS
     private GameType gameType;
-    private int leagueId;
+    private int leagueId = 0; // Default to 0, maybe change later?
     private int leagueStartDate = 0; // Default to 0, maybe change later? nooooooooo
     private int leagueEndDate = 0; // Default to 0, maybe change later?
-
-    public int createLeague(int owner, String name, GameType gameType) {
-        this.name = name;
-        this.ownerIds.add(owner);
-        this.gameType = gameType;
-        return this.leagueId;
-    }
 
     public String getLeagueName() {
         return name;

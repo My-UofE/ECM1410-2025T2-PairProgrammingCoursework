@@ -14,7 +14,8 @@ public class Manager {
     private List<League> leagues = new ArrayList<>();
     private List<GameReport> gameReports = new ArrayList<>();
     private int currentDate = LocalDate.now().getDayOfYear();
-    private int newId = 0;
+    private int newLeagueId = 0;
+    private int newPlayerId = 0;
 
     public int[] getPlayerIds() {
         int[] playerIds = new int[players.size()];
@@ -179,7 +180,7 @@ public class Manager {
         return leagueIds;
     }
 
-    public void createLeague(int owner, String name, GameType gameType) {
+    public int createLeague(int owner, String name, GameType gameType) {
         boolean foundId = false;
         for (Player player : players) {
             if (player.getId() == owner) {
@@ -204,9 +205,10 @@ public class Manager {
         League league = new League();
         league.setLeagueName(name);
         league.setLeagueGameType(gameType);
-        league.setLeagueId(newId++);
+        league.setLeagueId(newLeagueId++);
         league.addLeagueOwner(owner);
         leagues.add(league);
+        return league.getLeagueId();
     }
 
     public void removeLeague(int leagueId) {
