@@ -468,7 +468,7 @@ public class Manager {
         boolean found = false;
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
-                leagues.get(i).eraseGamesLeagueData();
+                leagues.get(i).eraseLeagueData();
                 found = true;
                 break;
             }
@@ -490,7 +490,7 @@ public class Manager {
                 League league = new League();
                 league.setLeagueName(newName);
                 league.setLeagueGameType(leagues.get(i).getLeagueGameType());
-                league.setLeagueId(newId++);
+                league.setLeagueId(newLeagueId++);
                 List<Integer> owners = leagues.get(i).getLeagueOwnersGetter();
                 for (int owner : owners) {
                     league.addLeagueOwner(owner);

@@ -150,6 +150,21 @@ public class League {
         this.memberIds.put(memberId, isActive);
     }
 
+    public void eraseLeagueData() {
+        this.name = null;
+        this.ownerIds.clear();
+        this.memberIds.clear();
+        this.dayActivity.clear();
+        this.playerActivity.clear();
+        this.emailInvites.clear();
+        this.dayScorePlayer.clear();
+        this.dayPointsPlayer.clear();
+        this.gameType = null;
+        this.leagueId = 0;
+        this.leagueStartDate = 0;
+        this.leagueEndDate = 0;
+    }
+
     @Override
     public String toString() {
         return "League{" +
