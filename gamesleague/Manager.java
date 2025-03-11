@@ -14,9 +14,9 @@ public class Manager {
     private List<Player> players = new ArrayList<>(); // STORES ACTUAL PLAYERS, NOT IDS
     private List<League> leagues = new ArrayList<>();
     private List<GameReport> gameReports = new ArrayList<>();
-    private int currentDate = LocalDate.now().getDayOfYear();
-    private int newLeagueId = 0;
-    private int newPlayerId = 0;
+    private int currentDate = LocalDate.now().getDayOfYear(); //i love time!!!
+    private int newLeagueId = 0; //new id for leagues created, increment everytime a league is created
+    private int newPlayerId = 0; //new id for players created, increment everytime a person is created
 
     public int[] getPlayerIds() {
         int[] playerIds = new int[players.size()];
@@ -24,7 +24,7 @@ public class Manager {
             playerIds[i] = players.get(i).getId();
         }
         return playerIds;
-    }
+    } //gets all the player ids by slowly going through each player and getting their id lolol
 
     public Player createPlayer(String email, String displayName, String name, String phone) {
         if (displayName.endsWith(" ") || displayName.startsWith(" ") || displayName == null) {
@@ -39,13 +39,14 @@ public class Manager {
         if (email.isEmpty() || email == null || !email.contains("@")) {
             throw new InvalidEmailException("Email cannot be empty or null and must contain an @");
         }
-        for (Player player : players) {
+        for (Player player : players) { //get each player from players.
             if (player.getEmail().equals(email)) {
                 throw new IllegalEmailException("Email already exists");
             }
         }
         Player player = new Player();
-        player.setPlayer(newPlayerId++, email, displayName, name, phone);
+        player.setPlayer(newPlayerId++, email, displayName, name, phone); //we like setPlayer because it sets the player. This also means we do have to have a bunch of setters in the player class
+        players.add(player);
         return player;
     }
 
@@ -54,7 +55,7 @@ public class Manager {
         for (Player player : players) {
             if (player.getId() == id) {
                 if (player.getOwnedLeagues().length > 0) {
-                    throw new IllegalOperationException("Player is an owner of one or more leagues");
+                    throw new IllegalOperationException("Player is an owner of one or more leagues"); // if the player owns a league then they cant be deactivated
                 }
                 player.deactivate();
                 foundId = true;
@@ -69,7 +70,7 @@ public class Manager {
     public boolean isDeactivatedPlayer(int id) {
         for (Player player : players) {
             if (player.getId() == id) {
-                return player.isDeactivated();
+                return player.isDeactivated(); //returns if the player is deactivated
             }
         }
         throw new IDInvalidException("Player with ID " + id + " not found");
@@ -206,7 +207,7 @@ public class Manager {
         league.setLeagueName(name);
         league.setLeagueGameType(gameType);
         league.setLeagueId(newLeagueId++);
-        league.addLeagueOwner(owner);
+        league.addLeagueOwner(owner); //using setters here instead of one setter function because of ownership being an array.
         leagues.add(league);
         return league.getLeagueId();
     }
@@ -218,7 +219,7 @@ public class Manager {
             if (leagues.get(i).getLeagueId() == leagueId) {
                 leagues.remove(i);
                 found = true;
-                break;
+                break; //ngl you could probably just use a return statement
             }
         }
         if (!found) {
@@ -247,7 +248,7 @@ public class Manager {
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
                 leagues.get(i).setLeagueName(newName);
-                found = true;
+                found = true; //again, return statement could be used
                 break;
             }
         }
@@ -265,10 +266,10 @@ public class Manager {
             if (player.getEmail() == email) {
                 for (League league : leagues) {
                     if (league.getLeagueId() == leagueId) {
-                        league.addEmailInvite(email);
+                        league.addEmailInvite(email); //add the email to the invite list
                         player.addInvite(leagueId);
                         found = true;
-                        break;
+                        break; //return statement could be used
                     }
                 }
             }
@@ -282,14 +283,15 @@ public class Manager {
         boolean found = false;
         for (Player player : players) {
             if (player.getId() == playerId) {
-                if (!Arrays.asList(player.getInvites()).contains(leagueId)) {
-                    throw new IllegalOperationException("Player has not been invited to league");
+                if (Arrays.asList(player.getInvites()).contains(leagueId)) { //sees if the list returned by player.getInvites contains the leagueId
+                    player.removeInvite(leagueId);
+                    break;
                 }
-                player.removeInvite(leagueId);
+                throw new IllegalOperationException("Player has not been invited to league");
             }
             for (League league : leagues) {
                 if (league.getLeagueId() == leagueId) {
-                    league.removeEmailInvite(player.getEmail());
+                    league.removeEmailInvite(player.getEmail()); //getemail returns a string
                     found = true;
                     break;
                 }
@@ -310,7 +312,7 @@ public class Manager {
         boolean found = false;
         for (Player player : players) {
             if (player.getEmail() == email) {
-                if (!Arrays.asList(player.getInvites()).contains(leagueId)) {
+                if (!Arrays.asList(player.getInvites()).contains(leagueId)) { //i feel like we should ignore the unlikely argument part
                     throw new IllegalOperationException("Player has not been invited to league");
                 }
                 player.removeInvite(leagueId);
@@ -335,7 +337,7 @@ public class Manager {
             if (leagues.get(i).getLeagueId() == leagueId) {
                 invites = leagues.get(i).getLeagueEmailInvites();
                 found = true;
-                break;
+                break; //get a list of all the invites from a specific league, invites contains string emails
             }
         }
         if (!found) {
@@ -344,13 +346,14 @@ public class Manager {
         List<String> emails = new ArrayList<>();
         for (Player player : players) {
             emails.add(player.getEmail());
-        }
+        } //get a list of all the emails from all the players
+
         List<String> nonPlayers = new ArrayList<>();
         for (String invite : invites) {
-            if (!emails.contains(invite)) {
+            if (!emails.contains(invite)) { //if emails array does not contain the invite
                 nonPlayers.add(invite);
             }
-        }
+        } //this returns an array of all the email invitied to the league that are not players yet
         return nonPlayers.toArray(new String[0]);
     }
 
