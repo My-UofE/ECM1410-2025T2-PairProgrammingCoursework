@@ -358,11 +358,11 @@ public class Manager {
     }
 
     public int[] getLeaguePlayerInvites(int leagueId) {
-        List<String> invites = new ArrayList<>();
+        List<String> invites = new ArrayList<>(); // create a list of emails invited to league
         boolean found = false;
         for (int i = 0; i < leagues.size(); i++) {
             if (leagues.get(i).getLeagueId() == leagueId) {
-                invites = leagues.get(i).getLeagueEmailInvites();
+                invites = leagues.get(i).getLeagueEmailInvites(); 
                 found = true;
                 break;
             }
@@ -373,13 +373,13 @@ public class Manager {
         List<String> emails = new ArrayList<>();
         for (Player player : players) {
             emails.add(player.getEmail());
-        }
+        } // create a list of all the players emails
         List<String> existingPlayersEmails = new ArrayList<>();
         for (String invite : invites) {
             if (emails.contains(invite)) {
                 existingPlayersEmails.add(invite);
             }
-        }
+        } // create a list of emails 
         List<Integer> existingPlayersIds = new ArrayList<>();
         for (Player player : players) {
             if (existingPlayersEmails.contains(player.getEmail())) {
@@ -789,6 +789,10 @@ public class Manager {
         } catch (ClassNotFoundException e) {
             System.err.println("Error loading data from file");
         }
+    }
+
+    public Status getLeagueStatus(int leagueId) {
+        
     }
 }
 
