@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Manager {
     private List<Player> players = new ArrayList<>(); // STORES ACTUAL PLAYERS, NOT IDS
@@ -756,162 +756,196 @@ public class Manager {
         this.newLeagueId = 0;
     }
 
-    public void saveGamesLeagueData(String filename) { //tbh we should check if this method actually works ngl
+    public void saveGamesLeagueData(String filename) {
         // Save data to file
-        File file = new File(filename);
-        try {
-            FileWriter writer = new FileWriter(file);
-            writer.write("Players\n");
-            for (Player player : players) {
-                writer.write(player.toString() + "\n");
-            }
-            writer.write("Leagues\n");
-            for (League league : leagues) {
-                writer.write(league.toString() + "\n");
-            }
-            writer.write("GameReports\n");
-            for (GameReport report : gameReports) {
-                writer.write(report.toString() + "\n");
-            }
-            writer.write("CurrentDate\n");
-            writer.write(currentDate + "\n");
-            writer.write("NewId\n");
-            writer.write(newLeagueId + "\n");
-            writer.close();
-        } 
-        catch (IOException e) {
+        try (FileOutputStream file = new FileOutputStream(filename);
+            ObjectOutputStream out = new ObjectOutputStream(file)) {
+            out.writeObject(players);
+            out.writeObject(leagues);
+            out.writeObject(gameReports);
+            out.writeInt(currentDate);
+            out.writeInt(newLeagueId);
+            out.writeInt(newPlayerId);
+        } catch (IOException e) {
             System.err.println("Error saving data to file");
         }
     }
 
     public void loadGamesLeagueData(String filename) {
         // Load data from file
-        File file = new File(filename);
-            try (Scanner scanner = new Scanner(file)) {
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    if (line.equals("Players")) {
-                        Integer newId = 0;
-                        String email = "";
-                        String displayName = "";
-                        String name = "";
-                        String phone = "";
-                        while (scanner.hasNextLine()) {
-                            line = scanner.nextLine();
-                            line = line.substring(line.indexOf("{") + 1, line.lastIndexOf("}"));
-                            String[] playerData = line.split(",");
-                            for (String data : playerData) {
-                                String[] playerInfo = data.split("=");
-                                if (playerInfo[0].equals("id")) {
-                                    newId = Integer.parseInt(playerInfo[1]);
-                                }
-                                if (playerInfo[0].equals("email")) {
-                                    email = playerInfo[1];
-                                }
-                                if (playerInfo[0].equals("displayName")) {
-                                    displayName = playerInfo[1];
-                                }
-                                if (playerInfo[0].equals("name")) {
-                                    name = playerInfo[1];
-                                }
-                                if (playerInfo[0].equals("phone")) {
-                                    phone = playerInfo[1];
-                                }
-                            }
-                            Player player = new Player();
-                            player.setPlayer(newId, email, displayName, name, phone);
-                            players.add(player);
-                        }
-                    }
-                if (line.equals("Leagues")) {
-                    String name = "";
-                    GameType gameType = null;
-                    int leagueId = 0;
-                    int startDate = 0;
-                    int endDate = 0;
-                    List<Integer> ownerIds = new ArrayList<>();
-                    List<String> emailInvites = new ArrayList<>();
-                    while (scanner.hasNextLine()) {
-                        line = scanner.nextLine();
-                        line = line.substring(line.indexOf("{") + 1, line.lastIndexOf("}"));
-                        String[] leagueData = line.split(",");
-                        for (String data : leagueData) {
-                            String[] leagueInfo = data.split("=");
-                            if (leagueInfo[0].equals("name")) {
-                                name = leagueInfo[1];
-                            }
-                            if (leagueInfo[0].equals("gameType")) {
-                                gameType = GameType.valueOf(leagueInfo[1]);
-                            }
-                            if (leagueInfo[0].equals("leagueId")) {
-                                leagueId = Integer.parseInt(leagueInfo[1]);
-                            }
-                            if (leagueInfo[0].equals("startDate")) {
-                                startDate = Integer.parseInt(leagueInfo[1]);
-                            }
-                            if (leagueInfo[0].equals("endDate")) {
-                                endDate = Integer.parseInt(leagueInfo[1]);
-                            }
-                            if (leagueInfo[0].equals("ownerIds")) {
-                                String[] owners = leagueInfo[1].split(" ");
-                                for (String owner : owners) {
-                                    ownerIds.add(Integer.parseInt(owner));
-                                }
-                            }
-                            if (leagueInfo[0].equals("emailInvites")) {
-                                String[] invites = leagueInfo[1].split(" ");
-                                for (String invite : invites) {
-                                    emailInvites.add(invite);
-                                }
-                            }
-                        }
-                        League league = new League();
-                        league.setLeagueName(name);
-                        league.setLeagueGameType(gameType);
-                        league.setLeagueId(leagueId);
-                        for (int owner : ownerIds) {
-                            league.addLeagueOwner(owner);
-                        }
-                        for (String invite : emailInvites) {
-                            league.addEmailInvite(invite);
-                        }
-                        leagues.add(league);
-                    }
-                }
-                if (line.equals("GameReports")) {
-                    int day = 0;
-                    int leagueId = 0;
-                    int playerId = 0;
-                    String gameReport = "";
-                    while (scanner.hasNextLine()) {
-                        line = scanner.nextLine();
-                        line = line.substring(line.indexOf("{") + 1, line.lastIndexOf("}"));
-                        String[] reportData = line.split(",");
-                        for (String data : reportData) {
-                            String[] reportInfo = data.split("=");
-                            if (reportInfo[0].equals("day")) {
-                                day = Integer.parseInt(reportInfo[1]);
-                            }
-                            if (reportInfo[0].equals("leagueId")) {
-                                leagueId = Integer.parseInt(reportInfo[1]);
-                            }
-                            if (reportInfo[0].equals("playerId")) {
-                                playerId = Integer.parseInt(reportInfo[1]);
-                            }
-                            if (reportInfo[0].equals("gameReport")) {
-                                gameReport = reportInfo[1];
-                            }
-                        }
-                        GameReport report = new GameReport(day, leagueId, playerId, gameReport);
-                        gameReports.add(report);
-                    }
-                }
-                scanner.close();
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("Error loading data from file");
+        try (FileInputStream file = new FileInputStream(filename);
+            ObjectInputStream in = new ObjectInputStream(file)) {
+            players = (List<Player>) in.readObject();
+            leagues = (List<League>) in.readObject();
+            gameReports = (List<GameReport>) in.readObject();
+            currentDate = in.readInt();
+            newLeagueId = in.readInt();
+            newPlayerId = in.readInt();
         } catch (IOException e) {
-            System.err.println("Error closing scanner"); //still not sure how this works needs fixing
+            System.err.println("Error loading data from file");
+        } catch (ClassNotFoundException e) {
+            System.err.println("Error loading data from file");
         }
     }
 }
+
+//     public void saveGamesLeagueData(String filename) { //tbh we should check if this method actually works ngl
+//         // Save data to file
+//         File file = new File(filename);
+//         try {
+//             FileWriter writer = new FileWriter(file);
+//             writer.write("Players\n");
+//             for (Player player : players) {
+//                 writer.write(player.toString() + "\n");
+//             }
+//             writer.write("Leagues\n");
+//             for (League league : leagues) {
+//                 writer.write(league.toString() + "\n");
+//             }
+//             writer.write("GameReports\n");
+//             for (GameReport report : gameReports) {
+//                 writer.write(report.toString() + "\n");
+//             }
+//             writer.write("CurrentDate\n");
+//             writer.write(currentDate + "\n");
+//             writer.write("NewId\n");
+//             writer.write(newLeagueId + "\n");
+//             writer.close();
+//         } 
+//         catch (IOException e) {
+//             System.err.println("Error saving data to file");
+//         }
+//     }
+
+//     public void loadGamesLeagueData(String filename) {
+//         // Load data from file
+//         try {
+//             File file = new File(filename);
+//             Scanner scanner = new Scanner(file);
+//             while (scanner.hasNextLine()) {
+//                 String line = scanner.nextLine();
+//                 if (line.equals("Players")) {
+//                     Integer newId = 0;
+//                     String email = "";
+//                     String displayName = "";
+//                     String name = "";
+//                     String phone = "";
+//                     while (scanner.hasNextLine()) {
+//                         line = scanner.nextLine();
+//                         line = line.substring(line.indexOf("{") + 1, line.lastIndexOf("}"));
+//                         String[] playerData = line.split(",");
+//                         for (String data : playerData) {
+//                             String[] playerInfo = data.split("=");
+//                             if (playerInfo[0].equals("id")) {
+//                                 newId = Integer.parseInt(playerInfo[1]);
+//                             }
+//                             if (playerInfo[0].equals("email")) {
+//                                 email = playerInfo[1];
+//                             }
+//                             if (playerInfo[0].equals("displayName")) {
+//                                 displayName = playerInfo[1];
+//                             }
+//                             if (playerInfo[0].equals("name")) {
+//                                 name = playerInfo[1];
+//                             }
+//                             if (playerInfo[0].equals("phone")) {
+//                                 phone = playerInfo[1];
+//                             }
+//                         }
+//                         Player player = new Player();
+//                         player.setPlayer(newId, email, displayName, name, phone);
+//                         players.add(player);
+//                     }
+//                 }
+//             if (line.equals("Leagues")) {
+//                 String name = "";
+//                 GameType gameType = null;
+//                 int leagueId = 0;
+//                 int startDate = 0;
+//                 int endDate = 0;
+//                 List<Integer> ownerIds = new ArrayList<>();
+//                 List<String> emailInvites = new ArrayList<>();
+//                 while (scanner.hasNextLine()) {
+//                     line = scanner.nextLine();
+//                     line = line.substring(line.indexOf("{") + 1, line.lastIndexOf("}"));
+//                     String[] leagueData = line.split(",");
+//                     for (String data : leagueData) {
+//                         String[] leagueInfo = data.split("=");
+//                         if (leagueInfo[0].equals("name")) {
+//                             name = leagueInfo[1];
+//                         }
+//                         if (leagueInfo[0].equals("gameType")) {
+//                             gameType = GameType.valueOf(leagueInfo[1]);
+//                         }
+//                         if (leagueInfo[0].equals("leagueId")) {
+//                             leagueId = Integer.parseInt(leagueInfo[1]);
+//                         }
+//                         if (leagueInfo[0].equals("startDate")) {
+//                             startDate = Integer.parseInt(leagueInfo[1]);
+//                         }
+//                         if (leagueInfo[0].equals("endDate")) {
+//                             endDate = Integer.parseInt(leagueInfo[1]);
+//                         }
+//                         if (leagueInfo[0].equals("ownerIds")) {
+//                             String[] owners = leagueInfo[1].split(" ");
+//                             for (String owner : owners) {
+//                                 ownerIds.add(Integer.parseInt(owner));
+//                             }
+//                         }
+//                         if (leagueInfo[0].equals("emailInvites")) {
+//                             String[] invites = leagueInfo[1].split(" ");
+//                             for (String invite : invites) {
+//                                 emailInvites.add(invite);
+//                             }
+//                         }
+//                     }
+//                     League league = new League();
+//                     league.setLeagueName(name);
+//                     league.setLeagueGameType(gameType);
+//                     league.setLeagueId(leagueId);
+//                     for (int owner : ownerIds) {
+//                         league.addLeagueOwner(owner);
+//                     }
+//                     for (String invite : emailInvites) {
+//                         league.addEmailInvite(invite);
+//                     }
+//                     leagues.add(league);
+//                 }
+//             }
+//             if (line.equals("GameReports")) {
+//                 int day = 0;
+//                 int leagueId = 0;
+//                 int playerId = 0;
+//                 String gameReport = "";
+//                 while (scanner.hasNextLine()) {
+//                     line = scanner.nextLine();
+//                     line = line.substring(line.indexOf("{") + 1, line.lastIndexOf("}"));
+//                     String[] reportData = line.split(",");
+//                     for (String data : reportData) {
+//                         String[] reportInfo = data.split("=");
+//                         if (reportInfo[0].equals("day")) {
+//                             day = Integer.parseInt(reportInfo[1]);
+//                         }
+//                         if (reportInfo[0].equals("leagueId")) {
+//                             leagueId = Integer.parseInt(reportInfo[1]);
+//                         }
+//                         if (reportInfo[0].equals("playerId")) {
+//                             playerId = Integer.parseInt(reportInfo[1]);
+//                         }
+//                         if (reportInfo[0].equals("gameReport")) {
+//                             gameReport = reportInfo[1];
+//                         }
+//                     }
+//                     GameReport report = new GameReport(day, leagueId, playerId, gameReport);
+//                     gameReports.add(report);
+//                 }
+//             }
+//             scanner.close();
+//             }
+//         } catch (IOException e) {
+//             System.err.println("Error loading data from file");
+//         } catch (ClassNotFoundException e) {
+//             System.err.println("Error finding class files"); //why the fuck do we need a class here for this error, ask teacher bruhhhhh
+//         }
+//     }   
+// }
