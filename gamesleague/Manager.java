@@ -907,6 +907,7 @@ public class Manager {
                 }
             }
             scanner.close();
+        }
         } catch (IOException e) {
             System.err.println("Error loading data from file");
         } catch (ClassNotFoundException e) {
