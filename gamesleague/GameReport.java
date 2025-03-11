@@ -28,4 +28,14 @@ public class GameReport {
     public String getGameReport() {
         return gameReport;
     }
+
+    @Override
+    public String toString() {
+        return "GameReport{" +
+                "day=" + day +
+                ", leagueId=" + leagueId +
+                ", playerId=" + playerId +
+                ", gameReport='" + gameReport + '\'' +
+                '}';
+    }
 }

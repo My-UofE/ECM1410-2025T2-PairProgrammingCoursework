@@ -819,7 +819,7 @@ public class Manager {
                             }
                         }
                         Player player = new Player();
-                        player.createPlayer(email, displayName, name, phone);
+                        player.setPlayer(newId, email, displayName, name, phone);
                         players.add(player);
                     }
                 }
@@ -876,6 +876,34 @@ public class Manager {
                         league.addEmailInvite(invite);
                     }
                     leagues.add(league);
+                }
+            }
+            if (line.equals("GameReports")) {
+                int day = 0;
+                int leagueId = 0;
+                int playerId = 0;
+                String gameReport = "";
+                while (scanner.hasNextLine()) {
+                    line = scanner.nextLine();
+                    line = line.substring(line.indexOf("{") + 1, line.lastIndexOf("}"));
+                    String[] reportData = line.split(",");
+                    for (String data : reportData) {
+                        String[] reportInfo = data.split("=");
+                        if (reportInfo[0].equals("day")) {
+                            day = Integer.parseInt(reportInfo[1]);
+                        }
+                        if (reportInfo[0].equals("leagueId")) {
+                            leagueId = Integer.parseInt(reportInfo[1]);
+                        }
+                        if (reportInfo[0].equals("playerId")) {
+                            playerId = Integer.parseInt(reportInfo[1]);
+                        }
+                        if (reportInfo[0].equals("gameReport")) {
+                            gameReport = reportInfo[1];
+                        }
+                    }
+                    GameReport report = new GameReport(day, leagueId, playerId, gameReport);
+                    gameReports.add(report);
                 }
             }
             scanner.close();
