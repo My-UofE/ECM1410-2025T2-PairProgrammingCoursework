@@ -1,4 +1,4 @@
-### TestOperations.md
+### TestOperations.md 20th March updated to v2 with Player and League tests (invitation system not included)
 
 The following instructions will let you download and run a test version of the grading script so you fix any issues with your code before submitting it.
 This is not a comprehensive test of all operational requirements, but is provided to support your own testing programs. (i.e. when grading a wider set of tests will be used).
