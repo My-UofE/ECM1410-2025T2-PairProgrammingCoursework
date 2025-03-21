@@ -16,3 +16,14 @@ unzip -o TestOperation_v3_1.zip; rm TestOperation_v3_1.zip
 ```
 
 3. Look in the `README.md` file in the `TestOperation` directory for instructions on how to install.
+
+### Beta version of updated TestOperations program
+
+The `v4beta` version is a new version of the TestOperations which tests the invitations and more league related methods.
+
+I will let students try it, and once any issues have been fixed (please send me any bugs you spot) will rename it v4 and replace the main file.
+
+```
+curl -O -J -L https://github.com/My-UofE/ECM1410-2025T2-PairProgrammingCoursework/raw/refs/heads/main/TestOperation_v4beta.zip
+unzip -o TestOperation_v4beta.zip; rm TestOperation_v4beta.zip
+```
