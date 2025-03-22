@@ -2,7 +2,7 @@
 
 As mentioned thanks to some students who identified some inconsistences in the interface. I have created a patch script which attemmpts to update your repository with the corrections.
 
-The idea is that your `GamesLeagueInterface.java` file gets replaced with v0.3.5 (started as v0.3.1) which has the fixes. 
+The idea is that your `GamesLeagueInterface.java` file gets replaced with v0.3.6 (started as v0.3.1) which has the fixes. 
 The patch scripts try to automatically make corresponding changes to your GamesLeague.java file (which should be in your ./src/gamesleague directory).
 
 You can either use the instructions below to try to patch your code, or make the changes manually to the files using the list of corrections below.
