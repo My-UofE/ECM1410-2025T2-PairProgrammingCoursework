@@ -1,15 +1,17 @@
-### TestOperations.md 24th March 1pm updated with v4 / v5beta / v6beta
+### TestOperations.md (Updated 24th March 1pm updated with v4 / v5beta / v6beta)
 
 The following instructions will let you download and run a test version of the grading script so you fix any issues with your code before submitting it.
 This is not a comprehensive test of all operational requirements, but is provided to support your own testing programs. (i.e. when grading a wider set of tests will be used).
 
-The following should be used as a indicative guide of how your performance with respect to these tests is intended to transate into a final grade for the **operation** component of the coursework grading. (This will be subject to approval of the moderator).
+The following indicatives how performance is intended to transate into a final grade for the graded **operation** component. (Note this is subject to adjustment and the approval of the moderator).
 
  - Completes Tests 01 - 04: **40%+**
  - Completes Tests 01 - 05: **50%+**
  - Completes Tests 01 - 07: **60%+**
  - Completes Tests 01 - 08: **70%+**
  - Completes Tests 01 - 09: **75%+**
+
+For v5 of the tests onwards you can view the expected code output in reference text files that are added to the `TestOperation` folder.
 
 To score **100%** you will in addition have to ensure your code fully complies with the interface and documentation so that it will pass additional testing of the functionalities and exception handling not included in Tests 01 - 09.
 
