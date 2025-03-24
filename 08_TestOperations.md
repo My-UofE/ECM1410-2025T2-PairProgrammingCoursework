@@ -14,8 +14,7 @@ ii) indicative grades below may subject to adjustment and the approval of the mo
  - Completes Tests 01 - 04: **40%+**
  - Completes Tests 01 - 05: **50%+**
  - Completes Tests 01 - 07: **60%+**
- - Completes Tests 01 - 08: **70%+**
- - Completes Tests 01 - 09: **75%+**
+ - Completes Tests 01 - 09: **70%+**
 
 For v5 of the tests onwards you can view the expected code output in reference text files that are added to the `TestOperation` folder.
 
