@@ -37,7 +37,9 @@ unzip -o TestOperation_v4.zip; rm TestOperation_v4.zip
 
 The `v5beta` and `v6beta` versions are new version of the TestOperations which tests the scoring.
 
-To run `v6beta` which simulates an extended passage of time you need to add the `DateProvider` class as described in the document `AddingDateProvider.md` that can be found in the `TestOperation` folder after unpacking.)
+To run `v6beta` which simulates an extended passage of time you need to add the `DateProvider` class as described in the document `AddingDateProvider.md`.
+
+This can be found in the `TestOperation` folder after unpacking.)
 
 I will let students try it, and once any issues have been fixed (please send me any bugs you spot) will rename them to v5 / v6 and replace the main file.
 
