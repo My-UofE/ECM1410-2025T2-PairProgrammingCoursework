@@ -3,9 +3,9 @@
 The following instructions will let you download and run a test version of the grading script so you fix any issues with your code before submitting it.
 This is not a comprehensive test of all operational requirements, but is provided to support your own testing programs. (i.e. when grading a wider set of tests will be used).
 
-The following indicatives how performance is intended to transate into a final grade for the graded **operation** component. 
+The following indicatives how the functionality covered by the tests is intended to transate into a final grade for the graded **operation** component. 
 
-(Note this is subject to adjustment and the approval of the moderator).
+(Notes: i) when used in grading minor adjustments (e.g. dates, number of players etc) may be made to prevent hard-coding outputs to fake test results.  ii) indicative grades below may subject to adjustment and the approval of the moderator).
 
  - Completes Tests 01 - 04: **40%+**
  - Completes Tests 01 - 05: **50%+**
