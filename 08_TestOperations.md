@@ -13,6 +13,8 @@ The following should be used as a indicative guide of how your performance with 
 
 To score **100%** you will in addition have to ensure your code fully complies with the interface and documentation so that it will pass additional testing of the functionalities and exception handling not included in Tests 01 - 09.
 
+### Getting the tests
+
 1. Download the TestOperation directory
 
 ```
