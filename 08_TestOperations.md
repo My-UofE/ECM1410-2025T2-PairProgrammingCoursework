@@ -1,4 +1,4 @@
-### TestOperations.md (Updated 24th March 1pm updated with v4 / v5beta / v6beta)
+### TestOperations.md (Updated 25th March 11am updated with v5 and v6)
 
 The following instructions will let you download and run a test version of the grading script so you fix any issues with your code before submitting it.
 This is not a comprehensive test of all operational requirements, but is provided to support your own testing programs. (i.e. when grading a wider set of tests will be used).
@@ -25,35 +25,28 @@ To score **100%** you will in addition have to ensure your code fully complies w
 1. Download the TestOperation directory
 
 ```
-curl -O -J -L https://github.com/My-UofE/ECM1410-2025T2-PairProgrammingCoursework/raw/refs/heads/main/TestOperation_v4.zip
+curl -O -J -L https://github.com/My-UofE/ECM1410-2025T2-PairProgrammingCoursework/raw/refs/heads/main/TestOperation_v5.zip
 ```
 
 2. Unzip. This will create a directory TestOperation in your repository (then remove the zip file to tidy up!).
 
 ```
-unzip -o TestOperation_v4.zip; rm TestOperation_v4.zip
+unzip -o TestOperation_v5.zip; rm TestOperation_v5.zip
 ```
 
 3. Look in the `README.md` file in the `TestOperation` directory for instructions on how to install.
 
-### Beta version of updated TestOperations program
+### v6 version of TestOperations program
 
-The `v5beta` and `v6beta` versions are new version of the TestOperations which tests the scoring.
+The `v6` versions are new version of the TestOperations which tests the scoring over a longer period
 
-To run `v6beta` which simulates an extended passage of time you need to add the `DateProvider` class as described in the document `AddingDateProvider.md`.
+This requires you to add the `DateProvider` class as described in the document `AddingDateProvider.md`.
 
-This can be found in the `TestOperation` folder after unpacking.)
-
-I will let students try it, and once any issues have been fixed (please send me any bugs you spot) will rename them to v5 / v6 and replace the main file.
 
 ```
-# FOR V5BETA
-curl -O -J -L https://github.com/My-UofE/ECM1410-2025T2-PairProgrammingCoursework/raw/refs/heads/main/TestOperation_v5beta.zip
-unzip -o TestOperation_v4beta.zip; rm TestOperation_v5beta.zip
+# FOR V6
+curl -O -J -L https://github.com/My-UofE/ECM1410-2025T2-PairProgrammingCoursework/raw/refs/heads/main/TestOperation_v6.zip
+unzip -o TestOperation_v6.zip; rm TestOperation_v6.zip
 ```
 
-```
-# FOR V6BETA
-curl -O -J -L https://github.com/My-UofE/ECM1410-2025T2-PairProgrammingCoursework/raw/refs/heads/main/TestOperation_v6beta.zip
-unzip -o TestOperation_v4beta.zip; rm TestOperation_v6beta.zip
-```
+
