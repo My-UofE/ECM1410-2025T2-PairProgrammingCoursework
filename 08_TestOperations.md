@@ -1,4 +1,4 @@
-### TestOperations.md (Updated 25th March 11am updated with v5 and v6)
+### TestOperations.md (Updated 25th March 11am updated with v5_1 and v6_1 fixed issues with example outputs)
 
 The following instructions will let you download and run a test version of the grading script so you fix any issues with your code before submitting it.
 This is not a comprehensive test of all operational requirements, but is provided to support your own testing programs. (i.e. when grading a wider set of tests will be used).
@@ -22,31 +22,33 @@ To score **100%** you will in addition have to ensure your code fully complies w
 
 ### Getting the tests
 
+### v5_1 version of TestOperations program
+
 1. Download the TestOperation directory
 
 ```
-curl -O -J -L https://github.com/My-UofE/ECM1410-2025T2-PairProgrammingCoursework/raw/refs/heads/main/TestOperation_v5.zip
+curl -O -J -L https://github.com/My-UofE/ECM1410-2025T2-PairProgrammingCoursework/raw/refs/heads/main/TestOperation_v5_1.zip
 ```
 
 2. Unzip. This will create a directory TestOperation in your repository (then remove the zip file to tidy up!).
 
 ```
-unzip -o TestOperation_v5.zip; rm TestOperation_v5.zip
+unzip -o TestOperation_v5_1.zip; rm TestOperation_v5_1.zip
 ```
 
 3. Look in the `README.md` file in the `TestOperation` directory for instructions on how to install.
 
-### v6 version of TestOperations program
+### v6_1 version of TestOperations program
 
-The `v6` versions are new version of the TestOperations which tests the scoring over a longer period
+The `v6_1` versions are new version of the TestOperations which tests the scoring over a longer period
 
 This requires you to add the `DateProvider` class as described in the document `AddingDateProvider.md`.
 
 
 ```
-# FOR V6
-curl -O -J -L https://github.com/My-UofE/ECM1410-2025T2-PairProgrammingCoursework/raw/refs/heads/main/TestOperation_v6.zip
-unzip -o TestOperation_v6.zip; rm TestOperation_v6.zip
+# FOR V6_1
+curl -O -J -L https://github.com/My-UofE/ECM1410-2025T2-PairProgrammingCoursework/raw/refs/heads/main/TestOperation_v6_1.zip
+unzip -o TestOperation_v6_1.zip; rm TestOperation_v6_1.zip
 ```
 
 
